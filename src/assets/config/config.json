@@ -1,0 +1,23 @@
+{
+  "development": {
+    "node_port": 3000,
+    "back_addr": "http://localhost:8080/walk"
+  },
+  "login": {
+    "api": "/login"
+  },
+  "testing": {
+    "config_id": "testing",
+    "database": "my-app-db-test"
+  },
+  "staging": {
+    "config_id": "staging",
+    "node_port": 8080,
+    "database": "my-app-db-stag"
+  },
+  "production": {
+    "config_id": "production",
+    "node_port": 8080,
+    "database": "my-app-db-prod"
+  }
+}
