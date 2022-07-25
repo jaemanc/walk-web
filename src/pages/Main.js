@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -47,33 +47,40 @@ import ReactDOM from "react-dom";
         }
     },[LoginData]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        console.log({
-            email: data.get(`email`),
-            password: data.get(`password`),
-        });
-
-        let ff = PostLogin(data);
-
-        if (ff){
-            // 왜 이거 먼저 뜨고 그다음에 리턴값 체크하지..?
-            console.log("로그인 성공!");
-        } else {
-            console.log("로그인 실패!!");
-            setLoginData({
-                password: 'ERROR!',
-                email: '계정을 확인해주세요!'
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            const data = new FormData(e.currentTarget);
+            console.log({
+                email: data.get(`email`),
+                password: data.get(`password`),
             });
-            // console.log("로그인 실패", LoginData.password, LoginData.email);
-        }
-    }
 
-    // function onClick(e){
-    //     console.log("qw3e1212123123123123123");
-    //     this.input.set("ddd?");
-    // }
+            // promise로 기다려야한다.
+            PostLogin(data).then( (flag) =>{
+
+                console.log(flag);
+
+                if (flag){
+                    console.log("로그인 성공!");
+                } else {
+                    console.log("로그인 실패!!");
+                    setLoginData({
+                        password: 'ERROR!',
+                        email: '계정을 확인해주세요!'
+                    });
+                }}
+            ).catch(err=>{
+                console.log(" server err... " , err);
+            })
+        };
+
+
+    const onChange = useCallback( e => {
+
+        setLoginData({...LoginData}, e.target.value);
+            console.log(e.target.value);
+
+    },[]);
 
 
     return (
@@ -95,7 +102,7 @@ import ReactDOM from "react-dom";
                     }}
                     />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    
+
                     <Box sx={{
                         my: 10,
                         display: 'flex',
@@ -118,7 +125,6 @@ import ReactDOM from "react-dom";
                         }}
                     >
                      <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}
-                     // onClick={onClick}
                      >
                             <TextField
                                 margin="normal"
@@ -128,8 +134,11 @@ import ReactDOM from "react-dom";
                                 label="email"
                                 name="email"
                                 autoComplete="email"
-                                defaultValue={LoginData.email}
-                                autoFocus
+                                value={LoginData.email || ''}
+                                onChange={e => setLoginData({
+                                    email: e.target.value,
+                                    password: LoginData.password
+                                }) }
                             />
                             <TextField
                                 margin="normal"
@@ -140,7 +149,11 @@ import ReactDOM from "react-dom";
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                defaultValue={LoginData.password}
+                                value={LoginData.password|| ''}
+                                onChange={e => setLoginData({
+                                    email: LoginData.email,
+                                    password: e.target.value
+                                }) }
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}

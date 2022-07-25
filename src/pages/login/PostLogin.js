@@ -35,20 +35,18 @@ const PostLogin = async (data) => {
         .then(response => {
             console.log(response, " 헤더값 : ", response.headers.authrozation);
             if (response.headers.authrozation !== null) {
-
                 // 로그인 정보를 세션에 기록한다.
                 //Login(response);
                 doSignUp(response);
-                // document.location.href = '/home'
-                console.log("아니 여기 아노아요 설마..?> ", flag);
+                document.location.href = '/home'
                 flag = !flag;
-                console.log("아니 여기 아노아요 설마..?2222> ", flag);
+                console.log(" login success :: ", flag);
             }
         }).catch(err => {
             console.log("error!!", err);
         });
 
-    console.log("아니 플래그 리턴 안해>>? ", flag);
+    console.log(" return flag value :: ", flag);
     return flag;
 }
 
