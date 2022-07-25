@@ -1,0 +1,190 @@
+import React,{useState,useEffect} from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import walkImg from "../assets/images/산책길8.jpg";
+import kakaoLogin from "../assets/images/kakao_login_medium.png";
+import LoginIcon from '@mui/icons-material/Login';
+import PostLogin from "./login/PostLogin";
+import {useForm} from "react-hook-form";
+import ReactDOM from "react-dom";
+
+
+    const Copyright = (props) => {
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                jaemanc93@gmail.com
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    }
+
+    const theme = createTheme();
+    const Main = () => {
+
+    const {register} = useForm();
+
+    const [LoginData, setLoginData] = React.useState({
+        // 초기 셋팅
+        email:"",
+        password:""
+    });
+
+    useEffect(() => {
+        if (LoginData.email !== null && LoginData.password !== null) {
+            console.log("effect : " , LoginData.password, LoginData.email);
+        }
+    },[LoginData]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        console.log({
+            email: data.get(`email`),
+            password: data.get(`password`),
+        });
+
+        let ff = PostLogin(data);
+
+        if (ff){
+            // 왜 이거 먼저 뜨고 그다음에 리턴값 체크하지..?
+            console.log("로그인 성공!");
+        } else {
+            console.log("로그인 실패!!");
+            setLoginData({
+                password: 'ERROR!',
+                email: '계정을 확인해주세요!'
+            });
+            // console.log("로그인 실패", LoginData.password, LoginData.email);
+        }
+    }
+
+    // function onClick(e){
+    //     console.log("qw3e1212123123123123123");
+    //     this.input.set("ddd?");
+    // }
+
+
+    return (
+        <div>
+            <Grid container component="main" sx={{ height: '100vh' }}>
+                <CssBaseline />
+                <Grid
+                    item
+                    xs = {false}
+                    sm={4}
+                    md={7}
+                    sx={{
+                        backgroundImage: `url(${walkImg})`,
+                        backgroundRepeat: `no-repeat`,
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                    />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    
+                    <Box sx={{
+                        my: 10,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}>
+                        <LoginIcon/>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+
+                    </Box>
+                    <Box
+                        sx={{
+                            my: 5,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                     <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}
+                     // onClick={onClick}
+                     >
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="email"
+                                name="email"
+                                autoComplete="email"
+                                defaultValue={LoginData.email}
+                                autoFocus
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                defaultValue={LoginData.password}
+                            />
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Sign In
+                            </Button>
+                            <Button onSubmit={handleSubmit}
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 0, mb: 2 }}
+                            >
+                                GUEST
+                            </Button>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Copyright sx={{ mt: 5 }} />
+                        </Box>
+                    </Box>
+                </Grid>
+
+            </Grid>
+
+
+
+        </div>
+    );
+}
+
+export default Main;
