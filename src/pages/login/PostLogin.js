@@ -2,7 +2,6 @@ import React,{useState, useEffect} from 'react';
 import defaultAxios from "axios";
 import ReactDOM from "react-dom";
 import loginConfig from '../../assets/config/config.json';
-import Login from "./Login";
 import {createModal} from "react-modal-promise";
 import { Modal } from "react-bootstrap";
 
