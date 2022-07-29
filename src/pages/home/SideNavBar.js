@@ -10,6 +10,7 @@ import Drawer from "@mui/material/Drawer";
 import { sizing } from '@mui/system';
 import {styled} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
+import Logout from "../login/Logout";
 
 const drawerWidth = 240;
 
@@ -43,7 +44,7 @@ function SideNavBar( props  ) {
     );
 
     return (
-            <Drawer variant="permanent" open={props.open} containerStyle={{height: 'calc(100% - 64px)' top: 64}} >
+            <Drawer variant="permanent" open={props.open}  >
                 <Toolbar
                     sx={{
                         display: 'flex',
@@ -63,9 +64,12 @@ function SideNavBar( props  ) {
                 <Divider />
                 <List component="nav">
                     {mainListItems}
-                    {/*<Divider sx={{ my: 1 }} />*/}
+                    <Divider sx={{ my: 1 }} />
                     {/*{secondaryListItems}*/}
                 </List>
+
+                <Logout open={props.open}/>
+
             </Drawer>
     );
 }

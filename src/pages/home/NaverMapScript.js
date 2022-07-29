@@ -72,34 +72,6 @@ const NaverMapScript = ( props ) => {
             console.log(" 도착점 셋팅 :: ", e.coord);
             destMarker.setPosition(e.coord);
 
-
-
-            // var coordHtml =
-            //     'Coord: '+ '(우 클릭 지점 위/경도 좌표)' + '<br />' +
-            //     'Point: ' + e.point + '<br />' +
-            //     'Offset: ' + e.offset;
-            //
-            // console.log(e.offset.y , " / " , e.offset.x );
-            //
-            // var menuL = document.getElementById("btnId");
-            //
-            // var coordHtml =
-            //     'Coord: '+ '(우 클릭 지점 위/경도 좌표)' + '<br />' +
-            //     'Point: ' + e.point + '<br />' +
-            //     'Offset: ' + e.offset;
-            //
-            // document.getElementById("btnId").style.position = 'absolute';
-            // document.getElementById("btnId").style.top = e.offset.y+"px";
-            // document.getElementById("btnId").style.left = e.offset.x+"px";
-            // document.getElementById("btnId").style.zIndex = 10000;
-            // document.getElementById("btnId").style.display= 'block';
-            // document.getElementById("btnId").innerHTML = '변경된값으로 체크';
-            //
-            // console.log("왜 속성이 안바뀔까나.?", document.getElementById("btnId"));
-            //
-            // const mapPaper = document.querySelector('#mapPaper');
-            // console.log('안나온유ㅠ유유융 ', mapPaper);
-
         }
         flag = !flag;
     });

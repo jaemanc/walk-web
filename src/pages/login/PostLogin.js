@@ -5,6 +5,7 @@ import loginConfig from '../../assets/config/config.json';
 import {createModal} from "react-modal-promise";
 import { Modal } from "react-bootstrap";
 
+
 // POST request using axios inside useEffect React hook
 const PostLogin = async (data) => {
 
@@ -38,6 +39,7 @@ const PostLogin = async (data) => {
                 //Login(response);
                 doSignUp(response);
                 document.location.href = '/home'
+
                 flag = !flag;
                 console.log(" login success :: ", flag);
             }
@@ -51,8 +53,12 @@ const PostLogin = async (data) => {
 
 function doSignUp (response) {
 
-    window.sessionStorage.setItem("id",response.data.useId);
+    window.sessionStorage.setItem("jwt",response.headers.authrozation);
+    window.sessionStorage.setItem("id",response.data.userId);
     window.sessionStorage.setItem("email",response.data.email);
+
+    console.log("  값이 있는데 대체 왜그러냐 나한테..");
+    console.log(sessionStorage.getItem("jwt") , " / " , sessionStorage.getItem("id") , " / " , sessionStorage.getItem("email"));
 
 }
 

@@ -18,10 +18,12 @@ document.body.appendChild(NaverScript);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/*<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c9e5f2e91e084b358044aacbdb9a3da"></script>*/}
+
+    // StrictMode 가 있다면 개발 시 debuf를 위해 2번씩 실행된다.
+  // <React.StrictMode>
+    // <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c9e5f2e91e084b358044aacbdb9a3da"></script>
     <App />
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

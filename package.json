@@ -14,6 +14,7 @@
     "axios": "0.27.2",
     "eslint": "8.20.0",
     "http-proxy-middleware": "2.0.6",
+    "mui-modal-provider": "2.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "2.4.0",
     "react-dom": "^18.2.0",
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-modal": "3.15.1"
   }
 }

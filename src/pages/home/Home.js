@@ -61,7 +61,7 @@ const Home = () => {
                     component="main"
                     sx={{
                         backgroundColor: (theme) =>
-                            theme.palette.mode === 'dark'
+                            theme.palette.mode === 'light'
                                 ? theme.palette.grey[100]
                                 : theme.palette.grey[900],
                         flexGrow: 1,
@@ -70,7 +70,7 @@ const Home = () => {
                     }}
                 >
                     <Toolbar />
-                    <Container fluid maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={1} height="100%">
 
                             <Grid item xs = {12}>
@@ -84,7 +84,6 @@ const Home = () => {
                                         width: 1,
                                     }}
                                 >
-                                    {/* 카카오 길찾기가 불편해서 Naver API 로 변경.*/}
                                     <NaverMap />
                                 </Paper>
 
