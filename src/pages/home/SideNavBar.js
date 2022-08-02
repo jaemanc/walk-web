@@ -12,7 +12,6 @@ import {styled} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Logout from "../login/Logout";
 
-const drawerWidth = 240;
 
 
 function SideNavBar( props  ) {
@@ -22,7 +21,7 @@ function SideNavBar( props  ) {
             '& .MuiDrawer-paper': {
                 position: 'relative',
                 whiteSpace: 'nowrap',
-                width: drawerWidth,
+                width: 240,
                 transition: theme.transitions.create('width', {
                     easing: theme.transitions.easing.sharp,
                     duration: theme.transitions.duration.enteringScreen,
@@ -39,12 +38,20 @@ function SideNavBar( props  ) {
                         width: theme.spacing(9),
                     },
                 }),
+                height: '100%'
             },
         }),
     );
 
     return (
-            <Drawer variant="permanent" open={props.open}  >
+        <Box sx={{
+            marginBottom:1
+            ,position: "sticky"
+            ,top:0
+            ,height:"100%"
+
+        }}>
+            <Drawer height="100%" variant="permanent" open={props.open}  >
                 <Toolbar
                     sx={{
                         display: 'flex',
@@ -65,12 +72,17 @@ function SideNavBar( props  ) {
                 <List component="nav">
                     {mainListItems}
                     <Divider sx={{ my: 1 }} />
-                    {/*{secondaryListItems}*/}
+                    {secondaryListItems}
                 </List>
 
-                <Logout open={props.open}/>
+                <Box sx={{
+                    mt:2
+                }}>
+                    <Logout open={props.open}/>
+                </Box>
 
             </Drawer>
+        </Box>
     );
 }
 

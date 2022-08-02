@@ -4,40 +4,45 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
+import Home from '@mui/icons-material/Home';
+import Person from '@mui/icons-material/Person';
+import AltRoute from '@mui/icons-material/AltRoute';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
+import ContentPaste from '@mui/icons-material/ContentPaste';
 import { Link } from "react-router-dom";
+import ListSubheader from "@mui/material/ListSubheader";
+import Assignment from '@mui/icons-material/Assignment';
 
 export const mainListItems = (
   <React.Fragment>
 
-      <ListItemButton component={Link} to="/home">
+    <ListItemButton component={Link} to="/home">
       <ListItemIcon>
-        <DashboardIcon />
+        <Home />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Home" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/user">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <Person />
       </ListItemIcon>
-      <ListItemText primary="User"  href="/user" />
+      <ListItemText primary="User" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/board">
+      <ListItemIcon>
+        <ContentPaste />
+      </ListItemIcon>
+      <ListItemText primary="Board" />
     </ListItemButton>
 
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <AltRoute />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItemButton>
-
-    <ListItemButton>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Course" />
     </ListItemButton>
 
     <ListItemButton>
@@ -52,26 +57,26 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <React.Fragment>
-    {/*<ListSubheader component="div" inset>*/}
-    {/*  Saved reports*/}
-    {/*</ListSubheader>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Current month" />*/}
-    {/*</ListItemButton>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Last quarter" />*/}
-    {/*</ListItemButton>*/}
-    {/*<ListItemButton>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Year-end sale" />*/}
-    {/*</ListItemButton>*/}
+    <ListSubheader component="div" inset>
+      Saved reports
+    </ListSubheader>
+    <ListItemButton>
+      <ListItemIcon>
+        <Assignment />
+      </ListItemIcon>
+      <ListItemText primary="Current month" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <Assignment />
+      </ListItemIcon>
+      <ListItemText primary="Last quarter" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <Assignment />
+      </ListItemIcon>
+      <ListItemText primary="Year-end sale" />
+    </ListItemButton>
   </React.Fragment>
 );

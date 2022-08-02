@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {BrowserRouter, Routes, Route, Router} from "react-router-dom";
 import Main from "./pages/Main";
 import Home from "./pages/home/Home"
-import User from "./pages/User/User";
+import User from "./pages/user/User";
+import Board from "./pages/board/Board";
+
 
 const App = () => {
   return (
@@ -12,6 +14,8 @@ const App = () => {
             <Route path="/" element={<Main />}></Route>
             <Route path="/home" element={<Home />}></Route>
             <Route path="/user" element={<User />}></Route>
+            <Route path="/board" element={<Board />}></Route>
+
             {/*<Route path="/login/*" element={<Product />}></Route>*/}
             {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
             {/*<Route path="*" element={<NotFound />}></Route>*/}

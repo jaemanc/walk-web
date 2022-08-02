@@ -84,7 +84,6 @@ const UserDetail = (props) => {
                     console.log(response, " 헤더값 : ", response.headers.authrozation);
                     if (response.headers.authrozation !== null) {
 
-                        console.log(" 너네가 문제였구나?");
                         setValues({
                             address: response.data.address ,
                             email: response.data.email ,
@@ -105,7 +104,6 @@ const UserDetail = (props) => {
 
         userData.preventDefault();
 
-        console.log("아니 글찮아?",{...values});
     }
 
     const handleChange = (event) => {
@@ -117,15 +115,14 @@ const UserDetail = (props) => {
 
     return (
 
-
-
-        <Box    sx={{
+        <Box
+            sx={{
             alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
             mt: 2,
             mr: 2,
-            pt: 8
+            pt: 8,
         }} >
 
 

@@ -11,6 +11,14 @@ const userInfo = {
     timezone: 'GTM-7'
 };
 
+/*
+
+DEtail로 합쳐져있으나 분리 할 예정.
+
+
+
+*/
+
 function UserInfo(props) {
     return (
         <Box
@@ -77,7 +85,6 @@ function UserInfo(props) {
                     </Button>
                 </CardActions>
             </Card>
-
         </Box>
     );
 }
