@@ -80,7 +80,7 @@ function TopToolBar( props ) {
                     noWrap
                     sx={{ flexGrow: 1 }}
                 >
-                    Dashboard
+                    Dash board
                 </Typography>
 
                 <Typography >

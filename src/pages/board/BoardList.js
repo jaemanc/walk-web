@@ -48,7 +48,7 @@ const BoardList = ({boards}) => {
                                 ml:1
                             }}>
                                 <TableCell>
-                                    Category
+                                    board
                                 </TableCell>
                                 <TableCell>
                                     DDaBong
@@ -73,11 +73,11 @@ const BoardList = ({boards}) => {
                             {boards.slice(0, limit).map((board) => (
                                 <TableRow
                                     hover
-                                    key={board.id}
+                                    key={board.postId}
                                     // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                                 >
                                     <TableCell padding="checkbox">
-
+                                        {board.boardName}
                                     </TableCell>
                                     <TableCell>
                                         <Box
@@ -87,7 +87,6 @@ const BoardList = ({boards}) => {
                                             }}
                                         >
                                             <Avatar
-                                                src={board.avatarUrl}
                                                 sx={{ mr: 2 }}
                                             >
                                                 {board.name}
@@ -96,19 +95,20 @@ const BoardList = ({boards}) => {
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {`${board.address.state}`}
+                                                {/*{`${board.address.state}`}*/}
                                             </Typography>
                                         </Box>
                                     </TableCell>
                                     <TableCell>
-                                        {board.email}
+                                        {board.postTitle}
                                     </TableCell>
                                     <TableCell>
                                         {board.name}
                                         {/* {`${board.address.city}, ${board.address.state}, ${board.address.country}`}*/}
                                     </TableCell>
                                     <TableCell>
-                                        {format(board.createdAt, 'yyyy-MM-dd')}
+                                        {/*{format(board.createdAt, 'yyyy-MM-dd')}*/}
+                                        {`${board.createdAt}`}
                                     </TableCell>
 
                                 </TableRow>

@@ -52,7 +52,7 @@ const Home = () => {
                 <CssBaseline />
 
                 {/* 상단 대시보드 App bar */}
-                <TopToolBar toggleDrawer={toggleDrawer} open={open}/>
+                <TopToolBar toggleDrawer={toggleDrawer} open={open} />
 
                 {/* 사이드 nav bar*/}
                 <SideNavBar toggleDrawer={toggleDrawer} open={open}/>
