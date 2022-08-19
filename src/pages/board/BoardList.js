@@ -1,25 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     Avatar
-    , Box, Card, CheckBox
+    , Box
     ,Table, TableBody, TableCell
-    ,TableHead, Tablepagination, TableRow
+    ,TableHead, TableRow
     ,Typography
 } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import Checkbox from "@mui/material/Checkbox";
-import {boards} from "./MockBoards";
-import { format } from 'date-fns';
 import TablePagination from "@mui/material/TablePagination";
+import {Link} from "react-router-dom";
 
 const BoardList = ({boards}) => {
-
-    const [customer, setCustomer] = useState({
-        id:"",
-        name:"",
-        msg:"",
-        no:"",
-    })
 
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
@@ -76,10 +67,14 @@ const BoardList = ({boards}) => {
                                     key={board.postId}
                                     // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                                 >
-                                    <TableCell padding="checkbox">
-                                        {board.boardName}
-                                    </TableCell>
-                                    <TableCell>
+                                        <TableCell padding="checkbox"
+                                           sx={{width:"13%", alignItems:"center"}}
+                                        >
+                                            {board.boardName}
+                                        </TableCell>
+                                    <TableCell
+                                        sx={{width:"10%"}}
+                                    >
                                         <Box
                                             sx={{
                                                 alignItems: 'center',
@@ -99,14 +94,22 @@ const BoardList = ({boards}) => {
                                             </Typography>
                                         </Box>
                                     </TableCell>
-                                    <TableCell>
-                                        {board.postTitle}
+                                    <TableCell
+                                        sx={{width:"45%", alignItems:"center"}}
+                                    >
+                                        <Link to={`/post/${board.postId}`}>
+                                            {board.postTitle}
+                                        </Link>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell
+                                        sx={{width:"13%", alignItems:"center"}}
+                                    >
                                         {board.name}
                                         {/* {`${board.address.city}, ${board.address.state}, ${board.address.country}`}*/}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell
+                                        sx={{width:"20%", alignItems:"center"}}
+                                    >
                                         {/*{format(board.createdAt, 'yyyy-MM-dd')}*/}
                                         {`${board.createdAt}`}
                                     </TableCell>

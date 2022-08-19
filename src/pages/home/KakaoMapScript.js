@@ -1,6 +1,4 @@
 /* global kakao */
-import imageTemp from "../../assets/images/풀숲흙길산책.jpg";
-import {useState} from "react";
 
 const { kakao } = window;
 

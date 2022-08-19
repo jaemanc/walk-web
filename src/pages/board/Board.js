@@ -6,7 +6,6 @@ import TopToolBar from "../home/TopToolBar";
 import SideNavBar from "../home/SideNavBar";
 import BoardToolBar from "./BoardToolBar";
 import BoardList from "./BoardList";
-import {boards} from "./MockBoards";
 import defaultAxios from "axios";
 
 const mdTheme = createTheme();
@@ -39,8 +38,6 @@ const Board = () =>  {
             console.log(' 세션이 만료됐습니다. 다시 로그인 해야합니다. ');
             window.alert("세션이 만료됐습니다. 다시 로그인 해야합니다. ")
         } else {
-
-            const jwtConfig = {headers: {Authorization: `Bearer ${jwt}`}};
 
             // 기본 조회 10개 게시물 최신등록순으로
             defaultAxios.get(`walk/post/search`,

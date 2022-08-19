@@ -1,10 +1,6 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import defaultAxios from "axios";
-import ReactDOM from "react-dom";
 import loginConfig from '../../assets/config/config.json';
-import {createModal} from "react-modal-promise";
-import { Modal } from "react-bootstrap";
-
 
 // POST request using axios inside useEffect React hook
 const PostLogin = async (data) => {
@@ -20,11 +16,6 @@ const PostLogin = async (data) => {
     });
     console.log("api : ", api);
 
-    const headers = {
-        'Authorication': "Bearer token",
-        'Content-Type': "application/json"
-    }
-
     await defaultAxios.post("walk/login",
         {
             // email:data.get(`email`),
@@ -35,13 +26,13 @@ const PostLogin = async (data) => {
         .then(response => {
             console.log(response, " 헤더값 : ", response.headers.authrozation);
             if (response.headers.authrozation !== null) {
+                // store의 login 정보 수정.
+                // store.dispatch({type:'LOGIN'})
+                // console.log('store에서 state 값 체크 : ', loginStore.getState());
                 // 로그인 정보를 세션에 기록한다.
-                //Login(response);
                 doSignUp(response);
                 document.location.href = '/home'
-
                 flag = !flag;
-                console.log(" login success :: ", flag);
             }
         }).catch(err => {
             console.log("error!!", err);
@@ -57,7 +48,6 @@ function doSignUp (response) {
     window.sessionStorage.setItem("id",response.data.userId);
     window.sessionStorage.setItem("email",response.data.email);
 
-    console.log("  값이 있는데 대체 왜그러냐 나한테..");
     console.log(sessionStorage.getItem("jwt") , " / " , sessionStorage.getItem("id") , " / " , sessionStorage.getItem("email"));
 
 }

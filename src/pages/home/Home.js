@@ -1,7 +1,6 @@
-import React,{useEffect, useState} from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -12,12 +11,6 @@ import Link from '@mui/material/Link';
 import NaverMap from "./NaverMap";
 import TopToolBar from "./TopToolBar";
 import SideNavBar from "./SideNavBar";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import {mainListItems, secondaryListItems} from "./listItems";
-
 
 function Copyright(props) {
     return (

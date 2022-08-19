@@ -1,6 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import React from 'react';
 import imgeTemp from "../../assets/images/kakao_login_medium.png"
 import fishImage from "../../assets/images/32fish.png"
 

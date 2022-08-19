@@ -1,6 +1,4 @@
-import React,{useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import Grid from '@mui/material/Grid';
+import React,{useState} from 'react';
 import Button from '@mui/material/Button';
 import Modal from "react-modal";
 import TextField from '@mui/material/TextField';
@@ -26,7 +24,8 @@ Modal.setAppElement(document.getElementById('root'));
 const LogInOutBtn = (props) => {
     let subtitle;
     const [modalisOpen, setisOpen] = React.useState(false);
-    const [loginStatus, setLoginStatus] = useState(props.isLogin);
+    const [logoutModalisOpen, setLogoutModalisOpen] = React.useState(false);
+    const [loginStatus, setLoginStatus] = useState(props.loginStatus);
     const [LoginData, setLoginData] = useState({
         // 초기 셋팅
         email:"",
@@ -61,9 +60,20 @@ const LogInOutBtn = (props) => {
         })
     };
 
+
     function openModal() {
-        console.log(" open Modal ");
-        setisOpen(true);
+        // console.log(" open Modal.. login status : ", loginStore.getState());
+
+        console.log("open Modal!!!! ");
+
+        // if (loginStore.getState()) {
+        //     console.log('login 상태입니다. logout modal을 호출해야 합니다. ');
+        //     setLogoutModalisOpen(true);
+        // } else {
+        //     console.log(' logout 상태입니다. login modal을 호출합니다. ');
+        //     setisOpen(true);
+        // }
+
     }
 
     function afterOpenModal() {
@@ -75,8 +85,15 @@ const LogInOutBtn = (props) => {
         console.log(" Modal close ");
         setisOpen(false);
     }
+    function closeLogoutModal() {
+        console.log(" Modal close ");
+        // setisOpen(false);
+        setLogoutModalisOpen(false);
+    }
 
     const onLogout = (e) => {
+
+        console.log(' 로그아웃 버튼을 누른다면..?' , e);
 
         if (loginStatus) {
             setLoginStatus((current)=> (!current));
@@ -99,7 +116,7 @@ const LogInOutBtn = (props) => {
                     className="modalBtn"
                     color="primary"
                     variant="contained"
-                    onClick={openModal}>{props.isLogin !==true ? "Logout" : "Login"}</Button>
+                    onClick={openModal}>{props.loginStatus !==true ? "Logout" : "Login"}</Button>
                 <Modal
                     isOpen={modalisOpen}
                     onAfterOpen={afterOpenModal}
@@ -146,20 +163,54 @@ const LogInOutBtn = (props) => {
                                 }) }
                             />
                         <Button
-                            // onClick={handleSubmit}
+
                             type="submit"
                             className="modalBtn"
                             color="primary"
                             variant="contained"
                             sx={{mr:3}}
+
                         >Go</Button>
                         <Button
                             className="modalBtn"
                             color="primary"
                             variant="contained"
+                            onClick={closeModal}
                         >Cancel</Button>
                     </Box>
                 </Modal>
+
+
+            {/*  LogoutModal   */}
+            <Modal
+                isOpen={logoutModalisOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Logout 하시겠습니까?</h2>
+                <Box
+                    sx={{
+                        m: 3
+                    }}
+                    textAlign='center' component="form" onSubmit={handleSubmit}>
+                    <Button
+                        type="submit"
+                        className="modalBtn"
+                        color="primary"
+                        variant="contained"
+                        sx={{mr:3}}
+                        onClick={onLogout}
+                    >Go</Button>
+                    <Button
+                        className="modalBtn"
+                        color="primary"
+                        variant="contained"
+                        onClick={closeLogoutModal}
+                    >Cancel</Button>
+                </Box>
+            </Modal>
 
                 {/*<Button*/}
                 {/*    color="primary"*/}

@@ -7,7 +7,6 @@ import List from "@mui/material/List";
 import {mainListItems, secondaryListItems} from "./listItems";
 import Box from '@mui/material/Box';
 import Drawer from "@mui/material/Drawer";
-import { sizing } from '@mui/system';
 import {styled} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Logout from "../login/Logout";

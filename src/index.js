@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const kakaoScript = document.createElement("script");
-kakaoScript.type="text/javascript"
-kakaoScript.src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c9e5f2e91e084b358044aacbdb9a3da";
-document.body.appendChild(kakaoScript);
+// const kakaoScript = document.createElement("script");
+// kakaoScript.type="text/javascript"
+// kakaoScript.src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c9e5f2e91e084b358044aacbdb9a3da";
+// document.body.appendChild(kakaoScript);
 
 const NaverScript = document.createElement("script");
 NaverScript.type="text/javascript"
@@ -15,14 +15,12 @@ NaverScript.src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6y
 document.body.appendChild(NaverScript);
 
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
-    // StrictMode 가 있다면 개발 시 debuf를 위해 2번씩 실행된다.
+    // StrictMode 가 있다면 개발 시 debug를 위해 2번씩 실행된다.
   // <React.StrictMode>
-    // <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c9e5f2e91e084b358044aacbdb9a3da"></script>
-    <App />
+        <App />
   // </React.StrictMode>
 );
 
