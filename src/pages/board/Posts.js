@@ -86,11 +86,21 @@ const Posts = (props)=> {
         }
     }
 
-    const cancle = () => {
+    const cancle = async () => {
         if (readOnlyValue===true) {
             // 삭제하기 요청이므로 삭제 API 호출 필요.
-
+            await defaultAxios.delete(`/walk/post/${postId}`,
+                {headers: {"Authorization": `${jwt}`}})
+                .then(response => {
+                    console.log(' response data of requested post update  :: ', response.data);
+                    setOriginalMsg(
+                        response.data
+                    );
+                }).catch(err => {
+                    console.log("error!!", err);
+                });
         }  else {
+            console.log(' 취소 요청');
             setPostDetail({
                   ...postDetail,
                   postMsg : originalMsg
