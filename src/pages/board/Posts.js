@@ -61,34 +61,24 @@ const Posts = (props)=> {
     // outlined
     let [variantValue, setVariantValue] = useState("filled")
 
-
-    const requestUpdatePost = async () => {
-        await defaultAxios.put(`/walk/post/${postId}`,
-            {
-                ...postDetail
-            },
-            {headers: {"Authorization": `${jwt}`}})
-            .then(response => {
-                console.log(' response data of requested post update  :: ', response.data );
-                setOriginalMsg(
-                    response.data
-                );
-            }).catch(err => {
-                console.log("error!!", err);
-            });
-    }
-
-    const putPostMsg = () =>{
-        if (readOnlyValue===false) {
+    const putPostMsg = async () => {
+        if (readOnlyValue === false) {
             setReadOnlyValue(true)
             setVariantValue("filled")
             console.log(postDetail.postMsg);
-            // 저장 api 호출 필요.
-            requestUpdatePost().then(r =>{
-                console.log(' post 수정 요청 : ');
-            }).catch(err => {
-                console.log(' post 수정 실패 : ');
-            });
+            await defaultAxios.put(`/walk/post/${postId}`,
+                {
+                    ...postDetail
+                },
+                {headers: {"Authorization": `${jwt}`}})
+                .then(response => {
+                    console.log(' response data of requested post update  :: ', response.data);
+                    setOriginalMsg(
+                        response.data
+                    );
+                }).catch(err => {
+                    console.log("error!!", err);
+                });
 
         } else {
             setReadOnlyValue(false)

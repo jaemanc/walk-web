@@ -80,11 +80,9 @@ const Board = () =>  {
                     {/*검색 툴바 */}
                     <BoardToolBar />
 
-
                     {/* 리스트 목록 */}
                     <BoardList boards={boards}/>
                 </Box>
-
             </Box>
         </ThemeProvider>
     );
