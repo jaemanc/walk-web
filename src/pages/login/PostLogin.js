@@ -1,10 +1,6 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import defaultAxios from "axios";
-import ReactDOM from "react-dom";
 import loginConfig from '../../assets/config/config.json';
-import Login from "./Login";
-import {createModal} from "react-modal-promise";
-import { Modal } from "react-bootstrap";
 
 // POST request using axios inside useEffect React hook
 const PostLogin = async (data) => {
@@ -20,11 +16,6 @@ const PostLogin = async (data) => {
     });
     console.log("api : ", api);
 
-    const headers = {
-        'Authorication': "Bearer token",
-        'Content-Type': "application/json"
-    }
-
     await defaultAxios.post("walk/login",
         {
             // email:data.get(`email`),
@@ -35,27 +26,29 @@ const PostLogin = async (data) => {
         .then(response => {
             console.log(response, " 헤더값 : ", response.headers.authrozation);
             if (response.headers.authrozation !== null) {
-
+                // store의 login 정보 수정.
+                // store.dispatch({type:'LOGIN'})
+                // console.log('store에서 state 값 체크 : ', loginStore.getState());
                 // 로그인 정보를 세션에 기록한다.
-                //Login(response);
                 doSignUp(response);
-                // document.location.href = '/home'
-                console.log("아니 여기 아노아요 설마..?> ", flag);
+                document.location.href = '/home'
                 flag = !flag;
-                console.log("아니 여기 아노아요 설마..?2222> ", flag);
             }
         }).catch(err => {
             console.log("error!!", err);
         });
 
-    console.log("아니 플래그 리턴 안해>>? ", flag);
+    console.log(" return flag value :: ", flag);
     return flag;
 }
 
 function doSignUp (response) {
 
-    window.sessionStorage.setItem("id",response.data.useId);
+    window.sessionStorage.setItem("jwt",response.headers.authrozation);
+    window.sessionStorage.setItem("id",response.data.userId);
     window.sessionStorage.setItem("email",response.data.email);
+
+    console.log(sessionStorage.getItem("jwt") , " / " , sessionStorage.getItem("id") , " / " , sessionStorage.getItem("email"));
 
 }
 

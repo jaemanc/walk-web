@@ -1,5 +1,4 @@
-import React,{useState,useEffect} from 'react';
-import Avatar from '@mui/material/Avatar';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -10,44 +9,36 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import walkImg from "../assets/images/산책길8.jpg";
-import kakaoLogin from "../assets/images/kakao_login_medium.png";
 import LoginIcon from '@mui/icons-material/Login';
 import PostLogin from "./login/PostLogin";
 import {useForm} from "react-hook-form";
-import ReactDOM from "react-dom";
 
+const Copyright = (props) => {
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+            jaemanc93@gmail.com
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+    </Typography>
+}
 
-    const Copyright = (props) => {
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                jaemanc93@gmail.com
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    }
+const theme = createTheme();
 
-    const theme = createTheme();
-    const Main = () => {
+const Main = () => {
 
     const {register} = useForm();
 
-    const [LoginData, setLoginData] = React.useState({
+    const [LoginData, setLoginData] = useState({
         // 초기 셋팅
         email:"",
         password:""
     });
 
-    useEffect(() => {
-        if (LoginData.email !== null && LoginData.password !== null) {
-            console.log("effect : " , LoginData.password, LoginData.email);
-        }
-    },[LoginData]);
-
-    const handleSubmit = (e) => {
+    function handleSubmit (e) {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         console.log({
@@ -55,26 +46,38 @@ import ReactDOM from "react-dom";
             password: data.get(`password`),
         });
 
-        let ff = PostLogin(data);
+        // promise로 기다려야한다.
+        PostLogin(data).then( (flag) =>{
 
-        if (ff){
-            // 왜 이거 먼저 뜨고 그다음에 리턴값 체크하지..?
-            console.log("로그인 성공!");
-        } else {
-            console.log("로그인 실패!!");
-            setLoginData({
-                password: 'ERROR!',
-                email: '계정을 확인해주세요!'
-            });
-            // console.log("로그인 실패", LoginData.password, LoginData.email);
+            console.log(flag);
+
+            if (flag){
+                console.log("로그인 성공!");
+
+            } else {
+                console.log("로그인 실패!!");
+                setLoginData({
+                    password: 'ERROR!',
+                    email: '계정을 확인해주세요!'
+                });
+            }}
+        ).catch(err=>{
+            console.log(" server err... " , err);
+        })
+    };
+
+    useEffect(() => {
+        if (LoginData.email !== null && LoginData.password !== null) {
+            console.log("effect : " , LoginData.password, LoginData.email);
         }
-    }
+    },[LoginData]);
 
-    // function onClick(e){
-    //     console.log("qw3e1212123123123123123");
-    //     this.input.set("ddd?");
-    // }
-
+    // const onChange = useCallback( e => {
+    //
+    //     setLoginData({...LoginData}, e.target.value);
+    //         console.log(e.target.value);
+    //
+    // },[]);
 
     return (
         <div>
@@ -95,7 +98,7 @@ import ReactDOM from "react-dom";
                     }}
                     />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    
+
                     <Box sx={{
                         my: 10,
                         display: 'flex',
@@ -118,7 +121,6 @@ import ReactDOM from "react-dom";
                         }}
                     >
                      <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}
-                     // onClick={onClick}
                      >
                             <TextField
                                 margin="normal"
@@ -128,8 +130,11 @@ import ReactDOM from "react-dom";
                                 label="email"
                                 name="email"
                                 autoComplete="email"
-                                defaultValue={LoginData.email}
-                                autoFocus
+                                value={LoginData.email || ''}
+                                onChange={e => setLoginData({
+                                    email: e.target.value,
+                                    password: LoginData.password
+                                }) }
                             />
                             <TextField
                                 margin="normal"
@@ -140,7 +145,11 @@ import ReactDOM from "react-dom";
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                defaultValue={LoginData.password}
+                                value={LoginData.password|| ''}
+                                onChange={e => setLoginData({
+                                    email: LoginData.email,
+                                    password: e.target.value
+                                }) }
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
@@ -180,11 +189,11 @@ import ReactDOM from "react-dom";
                 </Grid>
 
             </Grid>
-
-
-
         </div>
     );
 }
+
+
+
 
 export default Main;
