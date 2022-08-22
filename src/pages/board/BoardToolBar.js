@@ -35,19 +35,22 @@ const BoardToolBar = () => {
                 >
                     Board
                 </Typography>
-                <Box sx={{ m: 1 }}>
-                    <Button
+                <Box sx={{
+                    m: 1,
+                    mr: 15
+                }}>
+                    {/*<Button
                         startIcon={(<Upload fontSize="small" />)}
                         sx={{ mr: 1 }}
                     >
                         고민중
-                    </Button>
-                    <Button
+                    </Button>*/}
+                  {/*  <Button
                         startIcon={(<Download fontSize="small" />)}
                         sx={{ mr: 1 }}
                     >
                         입니다.
-                    </Button>
+                    </Button>*/}
                     <Button
                         color="primary"
                         variant="contained"

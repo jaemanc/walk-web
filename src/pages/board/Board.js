@@ -15,16 +15,20 @@ const Board = () =>  {
     const [boards, setBoards] = useState([{
         boardId: 1,
         postId: 21,
-        postTitle: '제목등록테스트7',
-        postMsg: '내용등록테스트7',
-        createdAt: '2022:08:02 21:30:03',
+        postTitle: 'LOADING....',
+        postMsg: 'LOADING....',
+        createdAt: '1993:07:17 02:30:03',
         createrId: 11,
         updated_at: null,
         deletedAt: null,
         isDeleted: 'N',
         user: null,
-        board: null
+        board: null,
+        allCount: 0
     }]);
+
+    const page = 0;
+    const size = 100;
 
     // // boards 조회 해서 뿌려준다.
     useEffect(()=>{
@@ -40,7 +44,7 @@ const Board = () =>  {
         } else {
 
             // 기본 조회 10개 게시물 최신등록순으로
-            defaultAxios.get(`walk/post/search`,
+            defaultAxios.get(`walk/post?page=${page}&size=${size}`,
                 {headers: {"Authorization" : `${jwt}`}})
                 .then(response=>{
                     console.log(`return value :: `, response);
@@ -81,7 +85,7 @@ const Board = () =>  {
                     <BoardToolBar />
 
                     {/* 리스트 목록 */}
-                    <BoardList boards={boards}/>
+                    <BoardList/>
                 </Box>
             </Box>
         </ThemeProvider>

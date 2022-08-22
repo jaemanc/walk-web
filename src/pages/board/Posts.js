@@ -86,9 +86,28 @@ const Posts = (props)=> {
         }
     }
 
-    const cancle = () => {
+    const cancle = async () => {
         if (readOnlyValue===true) {
             // 삭제하기 요청이므로 삭제 API 호출 필요.
+            // 현재 로그인 사용자가 게시글을 등록한 사용자인지 체크
+            let id = sessionStorage.getItem("id");
+            if (postDetail.createrId === id) {
+                // 삭제 로직
+                await defaultAxios.delete(`/walk/post/${postId}`,
+                    {headers: {"Authorization": `${jwt}`}})
+                    .then(response => {
+                        console.log(' response data of requested post update  :: ', response.data);
+                        setOriginalMsg(
+                            response.data
+                        );
+                    }).catch(err => {
+                        console.log("error!!", err);
+                    });
+
+            } else {
+                // 등록자가 아니므로 삭제 불가 알림 추가 필요
+                console.log(' 작성자 : ' , id , ' 게시글 등록자 : ', postDetail.createrId);
+            }
 
         }  else {
             setPostDetail({

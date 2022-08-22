@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Avatar
     , Box
@@ -9,18 +9,56 @@ import {
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import TablePagination from "@mui/material/TablePagination";
 import {Link} from "react-router-dom";
+import defaultAxios from "axios";
 
-const BoardList = ({boards}) => {
+const BoardList = () => {
 
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
+    const [board, setBoards] = useState([{
+        boardId: 1,
+        postId: 21,
+        postTitle: 'LOADING....',
+        postMsg: 'LOADING....',
+        createdAt: '1993:07:17 02:30:03',
+        createrId: 11,
+        updated_at: null,
+        deletedAt: null,
+        isDeleted: 'N',
+        user: null,
+        board: null,
+        allCount: 0,
+        boardName: 'boardName'
+    }]);
+
     const handleLimitChange = (event) => {
+        console.log(' event.target.value : ' , event.target.value);
         setLimit(event.target.value);
     };
 
     const handlePageChange = (event, newPage) => {
+
         setPage(newPage);
+
     };
+
+    useEffect(()=>{
+
+        let jwt = sessionStorage.getItem("jwt");
+
+        defaultAxios.get(`walk/post?page=${page}&size=${limit}`,
+            {headers: {"Authorization" : `${jwt}`}})
+            .then(response=>{
+                console.log(`return value :: `, response);
+                setBoards(
+                    response.data
+                );
+            }).catch(err => {
+            console.log("ERROR!! " , err);
+        });
+
+        console.log(' board..? ' , ...board);
+    },[page])
 
     return (
         <Box sx={{
@@ -61,7 +99,8 @@ const BoardList = ({boards}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {boards.slice(0, limit).map((board) => (
+                            {/* { board.slice(0, limit).map((board) => (*/}
+                            { board.map((board) => (
                                 <TableRow
                                     hover
                                     key={board.postId}
@@ -122,7 +161,7 @@ const BoardList = ({boards}) => {
             </PerfectScrollbar>
             <TablePagination
                 component="div"
-                count={boards.length}
+                count={board[0].allCount}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}
