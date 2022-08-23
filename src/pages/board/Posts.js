@@ -76,6 +76,8 @@ const Posts = (props)=> {
                     setOriginalMsg(
                         response.data
                     );
+
+                    window.alert(' 수정 되었습니다. ');
                 }).catch(err => {
                     console.log("error!!", err);
                 });
@@ -107,6 +109,9 @@ const Posts = (props)=> {
             } else {
                 // 등록자가 아니므로 삭제 불가 알림 추가 필요
                 console.log(' 작성자 : ' , id , ' 게시글 등록자 : ', postDetail.createrId);
+
+                window.alert(' 작성자만 게시글을 삭제 할 수 있습니다.');
+
             }
 
         }  else {
