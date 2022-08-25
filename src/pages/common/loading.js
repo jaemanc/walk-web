@@ -1,19 +1,21 @@
 import React from 'react';
 import {TailSpin} from 'react-loader-spinner';
+import {Box} from '@mui/material';
 
+function Loading (props) {
 
-const Loading = () => {
+    console.log(' props value :: ' , props);
 
     return (
-        <div>
+        <Box
+            sx={{ display: props.props ? 'block' : 'none' }}
+        >
             <TailSpin
                 height = "50"
                 width = "100"
                 color = 'green'
-                wrapperStyle
-                wrapperClass
             />
-        </div>
+        </Box>
     );
 }
 

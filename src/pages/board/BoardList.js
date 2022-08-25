@@ -40,7 +40,26 @@ const BoardList = () => {
         isDeleted:'N',
         createrId: sessionStorage.getItem("id")
     });
-    const [search,setSearch] = React.useState("");
+    const [search,setSearch] = React.useState("init");
+    const [page, setPage] = useState(0);
+    const [limit, setLimit] = useState(10);
+    const [board, setBoards] = useState([{
+        boardId: 1,
+        postId: 21,
+        postTitle: 'LOADING....',
+        postMsg: 'LOADING....',
+        createdAt: '1993:07:17 02:30:03',
+        createrId: 11,
+        updated_at: null,
+        deletedAt: null,
+        isDeleted: 'N',
+        user: null,
+        board: null,
+        allCount: 0,
+        boardName: 'boardName'
+    }]);
+
+
 
     function openModal() {
         setisOpen(true);
@@ -50,7 +69,6 @@ const BoardList = () => {
         var answer = window.confirm('작성 중인 게시글의 내용은 모두 사라집니다. ' +
             '\r\n그래도 취소하시겠습니까?')
         if (answer) {
-            console.log(' 예스!!!');
             setisOpen(false);
             setPostInfo({
                 postTitle:'',
@@ -85,11 +103,8 @@ const BoardList = () => {
 
     function searchPosts (e) {
 
-        setLoading(true);
-
         e.preventDefault();
-        // /walk/post/search   /// params ==> (String) keyword / (long) boardId / (int) page / (int) size
-
+        setLoading(true);
         let boardId = 0;
         let page = 0;
         let limit = 0;
@@ -111,24 +126,6 @@ const BoardList = () => {
         });
 
     }
-
-    const [page, setPage] = useState(0);
-    const [limit, setLimit] = useState(10);
-    const [board, setBoards] = useState([{
-        boardId: 1,
-        postId: 21,
-        postTitle: 'LOADING....',
-        postMsg: 'LOADING....',
-        createdAt: '1993:07:17 02:30:03',
-        createrId: 11,
-        updated_at: null,
-        deletedAt: null,
-        isDeleted: 'N',
-        user: null,
-        board: null,
-        allCount: 0,
-        boardName: 'boardName'
-    }]);
 
     const handleLimitChange = (event) => {
         console.log(' event.target.value : ' , event.target.value);
@@ -220,11 +217,7 @@ const BoardList = () => {
                                            value : e.target.value
                                        })}
                             />
-                            <Box sx={{
-                                display: loading
-                            }}>
-                                <Loading/>
-                            </Box>
+                                <Loading props={loading}/>
                             <Button
                                 sx={{
                                     ml:5,
