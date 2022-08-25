@@ -2,7 +2,6 @@ import React from 'react';
 import axios from "axios";
 
 const Interceptor = (props) => {
-
     // 1. jwt check
     // 2. 갱신 및 session에 다시 적용.
     var axiosAuthInstance = axios.create({
@@ -39,7 +38,7 @@ const Interceptor = (props) => {
         // 401 => login redirect page로 호출 할 것.
         if (error.response.status === 401) {
             window.alert(' 세션이 만료되었습니다. 다시 로그인 해주세요! ');
-            window.location.href = "";
+            window.location.href = "/";
         }
         return Promise.reject(error);
     });

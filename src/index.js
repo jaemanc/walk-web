@@ -18,7 +18,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // StrictMode 가 있다면 개발 시 debug를 위해 2번씩 실행된다.
     // <React.StrictMode>
-        <App />
+    <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

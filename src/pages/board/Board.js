@@ -4,7 +4,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import TopToolBar from "../home/TopToolBar";
 import SideNavBar from "../home/SideNavBar";
-import BoardToolBar from "./BoardToolBar";
 import BoardList from "./BoardList";
 import axios from "axios";
 
@@ -83,7 +82,6 @@ const Board = () =>  {
                     , width : '80%'
                 }}>
                     {/*검색 툴바 */}
-                    <BoardToolBar />
 
                     {/* 리스트 목록 */}
                     <BoardList/>

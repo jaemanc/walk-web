@@ -62,34 +62,36 @@ const Posts = (props)=> {
     let [variantValue, setVariantValue] = useState("filled")
 
     const putPostMsg = async () => {
-        if (readOnlyValue === false) {
-            setReadOnlyValue(true)
-            setVariantValue("filled")
-            console.log(postDetail.postMsg);
-            let id = sessionStorage.getItem("id");
-            if (postDetail.createrId === id) {
-                await defaultAxios.put(`/walk/post/${postId}`,
-                    {
-                        ...postDetail
-                    },
-                    {headers: {"Authorization": `${jwt}`}})
-                    .then(response => {
-                        console.log(' response data of requested post update  :: ', response.data);
-                        setOriginalMsg(
-                            response.data
-                        );
-
-                        window.alert(' 수정 되었습니다. ');
-                    }).catch(err => {
-                        console.log("error!!", err);
-                    });
-            } else {
-                window.alert(' 작성자만 수정 가능합니다. ');
-            }
-
+        let id = sessionStorage.getItem("id");
+        if (id !== postDetail.createrId) {
+            window.alert(' 작성자만 수정 가능합니다. ');
         } else {
-            setReadOnlyValue(false)
-            setVariantValue("outlined")
+            if (readOnlyValue === false) {
+                setReadOnlyValue(true)
+                setVariantValue("filled")
+                console.log(postDetail.postMsg);
+                if (postDetail.createrId === id) {
+                    await defaultAxios.put(`/walk/post/${postId}`,
+                        {
+                            ...postDetail
+                        },
+                        {headers: {"Authorization": `${jwt}`}})
+                        .then(response => {
+                            console.log(' response data of requested post update  :: ', response.data);
+                            setOriginalMsg(
+                                response.data
+                            );
+
+                            window.alert(' 수정 되었습니다. ');
+                        }).catch(err => {
+                            console.log("error!!", err);
+                        });
+                }
+
+            } else {
+                setReadOnlyValue(false)
+                setVariantValue("outlined")
+            }
         }
     }
 

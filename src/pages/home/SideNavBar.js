@@ -60,7 +60,7 @@ function SideNavBar( props  ) {
                     }}
                 >
                     <IconButton onClick={(evt ) => {
-                        console.log('nav in clicke',props.open)
+                        //console.log('nav in clicke',props.open)
                         props.toggleDrawer(props.open)
 
                     }}>
