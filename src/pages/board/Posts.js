@@ -40,7 +40,7 @@ const Posts = (props)=> {
             defaultAxios.get(`/walk/post/${postId}`
                 ,{headers: {"Authorization": `${jwt}`}})
                 .then(response => {
-                    console.log(" get post values :: ",response.data);
+
                     setPostDetail(response.data);
                     setOriginalMsg(response.data.postMsg);
                     return resolve(response);
@@ -62,45 +62,66 @@ const Posts = (props)=> {
     let [variantValue, setVariantValue] = useState("filled")
 
     const putPostMsg = async () => {
-        if (readOnlyValue === false) {
-            setReadOnlyValue(true)
-            setVariantValue("filled")
-            console.log(postDetail.postMsg);
-            await defaultAxios.put(`/walk/post/${postId}`,
-                {
-                    ...postDetail
-                },
-                {headers: {"Authorization": `${jwt}`}})
-                .then(response => {
-                    console.log(' response data of requested post update  :: ', response.data);
-                    setOriginalMsg(
-                        response.data
-                    );
-                }).catch(err => {
-                    console.log("error!!", err);
-                });
-
+        let id = sessionStorage.getItem("id");
+        if (id !== postDetail.createrId) {
+            window.alert(' 작성자만 수정 가능합니다. ');
         } else {
-            setReadOnlyValue(false)
-            setVariantValue("outlined")
+            if (readOnlyValue === false) {
+                setReadOnlyValue(true)
+                setVariantValue("filled")
+                console.log(postDetail.postMsg);
+                if (postDetail.createrId === id) {
+                    await defaultAxios.put(`/walk/post/${postId}`,
+                        {
+                            ...postDetail
+                        },
+                        {headers: {"Authorization": `${jwt}`}})
+                        .then(response => {
+                            console.log(' response data of requested post update  :: ', response.data);
+                            setOriginalMsg(
+                                response.data
+                            );
+
+                            window.alert(' 수정 되었습니다. ');
+                        }).catch(err => {
+                            console.log("error!!", err);
+                        });
+                }
+
+            } else {
+                setReadOnlyValue(false)
+                setVariantValue("outlined")
+            }
         }
     }
 
     const cancle = async () => {
         if (readOnlyValue===true) {
             // 삭제하기 요청이므로 삭제 API 호출 필요.
-            await defaultAxios.delete(`/walk/post/${postId}`,
-                {headers: {"Authorization": `${jwt}`}})
-                .then(response => {
-                    console.log(' response data of requested post update  :: ', response.data);
-                    setOriginalMsg(
-                        response.data
-                    );
-                }).catch(err => {
-                    console.log("error!!", err);
-                });
+            // 현재 로그인 사용자가 게시글을 등록한 사용자인지 체크
+            let id = sessionStorage.getItem("id");
+            if (postDetail.createrId === id) {
+                // 삭제 로직
+                await defaultAxios.delete(`/walk/post/${postId}`,
+                    {headers: {"Authorization": `${jwt}`}})
+                    .then(response => {
+                        console.log(' response data of requested post update  :: ', response.data);
+                        setOriginalMsg(
+                            response.data
+                        );
+                    }).catch(err => {
+                        console.log("error!!", err);
+                    });
+
+            } else {
+                // 등록자가 아니므로 삭제 불가 알림 추가 필요
+                console.log(' 작성자 : ' , id , ' 게시글 등록자 : ', postDetail.createrId);
+
+                window.alert(' 작성자만 게시글을 삭제 할 수 있습니다.');
+
+            }
+
         }  else {
-            console.log(' 취소 요청');
             setPostDetail({
                   ...postDetail,
                   postMsg : originalMsg
