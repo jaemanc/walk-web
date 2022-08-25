@@ -163,13 +163,11 @@ const LogInOutBtn = (props) => {
                                 }) }
                             />
                         <Button
-
                             type="submit"
                             className="modalBtn"
                             color="primary"
                             variant="contained"
                             sx={{mr:3}}
-
                         >Go</Button>
                         <Button
                             className="modalBtn"
