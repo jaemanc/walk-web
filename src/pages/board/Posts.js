@@ -40,7 +40,7 @@ const Posts = (props)=> {
             defaultAxios.get(`/walk/post/${postId}`
                 ,{headers: {"Authorization": `${jwt}`}})
                 .then(response => {
-                    console.log(" get post values :: ",response.data);
+
                     setPostDetail(response.data);
                     setOriginalMsg(response.data.postMsg);
                     return resolve(response);
@@ -66,21 +66,26 @@ const Posts = (props)=> {
             setReadOnlyValue(true)
             setVariantValue("filled")
             console.log(postDetail.postMsg);
-            await defaultAxios.put(`/walk/post/${postId}`,
-                {
-                    ...postDetail
-                },
-                {headers: {"Authorization": `${jwt}`}})
-                .then(response => {
-                    console.log(' response data of requested post update  :: ', response.data);
-                    setOriginalMsg(
-                        response.data
-                    );
+            let id = sessionStorage.getItem("id");
+            if (postDetail.createrId === id) {
+                await defaultAxios.put(`/walk/post/${postId}`,
+                    {
+                        ...postDetail
+                    },
+                    {headers: {"Authorization": `${jwt}`}})
+                    .then(response => {
+                        console.log(' response data of requested post update  :: ', response.data);
+                        setOriginalMsg(
+                            response.data
+                        );
 
-                    window.alert(' 수정 되었습니다. ');
-                }).catch(err => {
-                    console.log("error!!", err);
-                });
+                        window.alert(' 수정 되었습니다. ');
+                    }).catch(err => {
+                        console.log("error!!", err);
+                    });
+            } else {
+                window.alert(' 작성자만 수정 가능합니다. ');
+            }
 
         } else {
             setReadOnlyValue(false)

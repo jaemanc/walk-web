@@ -15,8 +15,8 @@
     "axios": "0.27.2",
     "date-fns": "2.29.1",
     "eslint": "8.20.0",
-    "http-proxy-middleware": "2.0.6",
     "mui-modal-provider": "2.0.1",
+    "path": "0.12.7",
     "react": "^18.2.0",
     "react-bootstrap": "2.4.0",
     "react-dom": "^18.2.0",
@@ -57,6 +57,8 @@
     ]
   },
   "devDependencies": {
+    "@mswjs/interceptors": "0.17.4",
+    "http-proxy-middleware": "2.0.6",
     "react-modal": "3.15.1"
   }
 }

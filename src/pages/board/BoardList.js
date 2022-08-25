@@ -49,7 +49,7 @@ const BoardList = () => {
         defaultAxios.get(`walk/post?page=${page}&size=${limit}`,
             {headers: {"Authorization" : `${jwt}`}})
             .then(response=>{
-                console.log(`return value :: `, response);
+                //console.log(`return value :: `, response);
                 setBoards(
                     response.data
                 );
@@ -57,7 +57,6 @@ const BoardList = () => {
             console.log("ERROR!! " , err);
         });
 
-        console.log(' board..? ' , ...board);
     },[page])
 
     return (

@@ -5,10 +5,16 @@ import Home from "./pages/home/Home"
 import User from "./pages/user/User";
 import Board from "./pages/board/Board";
 import Post from "./pages/board/Posts";
+import axios from "axios";
+import Interceptor from "./Interceptor";
 
 const App = () => {
+
+
+
   return (
           <div>
+          <Interceptor/>
             <BrowserRouter>
               <Routes>
                   <Route path="/" element={<Main />}></Route>
