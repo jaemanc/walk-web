@@ -54,7 +54,7 @@ const UserDetail = (props) => {
         let id = sessionStorage.getItem("id");
         let email = sessionStorage.getItem("email");
         let jwt = sessionStorage.getItem("jwt");
-        console.log(" id :: ", id.toString() , " email :: ",email, " jwt :: ", jwt);
+        // console.log(" id :: ", id.toString() , " email :: ",email, " jwt :: ", jwt);
 
         // 세션에 값이 없는 경우 :
         if ( id === null || email === null ) {
