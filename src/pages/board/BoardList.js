@@ -40,7 +40,7 @@ const BoardList = () => {
         isDeleted:'N',
         createrId: sessionStorage.getItem("id")
     });
-    const [search,setSearch] = React.useState("init");
+    const [search,setSearch] = React.useState("");
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [board, setBoards] = useState([{
@@ -108,19 +108,30 @@ const BoardList = () => {
         let boardId = 0;
         let page = 0;
         let limit = 0;
-        var searchkey = search.toString();
 
-        console.log('search value : ' , search);
-
-        axios.get(`/walk/post/search?${searchkey}boardId=${boardId}&page=${page}&size=0`,
-            {headers: {"Authorization": `${jwt}`}})
+        axios.get(`/walk/post/search`,{
+            params:{
+                boardId: boardId,
+                keyword: search.value,
+                page: page,
+                size:0
+            },
+            headers :{
+                "Authorization": `${jwt}`
+            }})
             .then(response => {
-                console.log(' response data of requested post update  :: ', response.data);
+
+                console.log(' response data of requested post update  :: ', response);
                 setisOpen(false);
                 setLoading(false);
-                setBoards(
-                    response.data
-                );
+
+                if (response.status === 200) {
+                    setBoards(
+                        response.data
+                    );
+                } else {
+                    console.log(' 검색 결과가 존재하지 않습니다. ');
+                }
             }).catch(err => {
             console.log("error!!", err);
         });
@@ -198,6 +209,12 @@ const BoardList = () => {
                             mr:1
                             ,ml: 1
                         }}>
+
+
+
+
+
+
                             <TextField sx={{width:"60%"}}
                                        InputProps={{
                                            startAdornment: (
@@ -217,6 +234,11 @@ const BoardList = () => {
                                            value : e.target.value
                                        })}
                             />
+
+
+
+
+
                                 <Loading props={loading}/>
                             <Button
                                 sx={{
