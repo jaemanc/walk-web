@@ -1,17 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Avatar,
     Box,
     Button,
-    Card, CardActions,
+    Card,
     CardContent,
     CardHeader,
     Divider,
     Grid,
-    TextField, Typography
+    TextField,
 } from '@mui/material';
-import LogInOutBtn from "../login/LogInOutBtn";
-import defaultAxios from "axios";
 
 const states = [
     {
@@ -28,9 +25,9 @@ const states = [
     }
 ];
 
-const UserDetail = (props) => {
+const UserDetail = (userInfo) => {
 
-    const [values, setValues] = useState({
+    const [userInfoValues, setUserInfoValues] = useState({
         address: 'USA',
         email: 'demo@devias.io',
         name: 'Katarina',
@@ -40,64 +37,18 @@ const UserDetail = (props) => {
         birthday: '19930717'
     });
 
-    const userInfo = {
-        avatar: '/static/images/avatars/avatar_6.png',
-        city: 'Los Angeles',
-        country: 'USA',
-        jobTitle: 'Senior Developer',
-        name: 'Katarina Smith',
-        timezone: 'GTM-7'
-    };
-
-    useEffect(()=>{
-
-        let id = sessionStorage.getItem("id");
-        let email = sessionStorage.getItem("email");
-        let jwt = sessionStorage.getItem("jwt");
-        // console.log(" id :: ", id.toString() , " email :: ",email, " jwt :: ", jwt);
-
-        // 세션에 값이 없는 경우 :
-        if ( id === null || email === null ) {
-            // 게스트 or neet login...
-            setValues({
-                address: 'need login',
-                email: 'need@login..!',
-                name: 'Nid Login',
-                password: '',
-                phone: '00011112222',
-                state: 'need Login',
-                birthday: '19001231'
-            });
-
-        } else {
-            // 로그인 한 사용자 : 세션 있음.
-            // console.log(" 상세 정보 초기화.. session 값으로 조회..? ", {...values});
-            // console.log(" jwt values :: " , jwt);
-            // 사용자 정보 상세조회 요청.
-
-            const jwtConfig = {headers: {Authorization: `Bearer ${jwt}`}};
-
-            // defaultAxios.get(`walk/user?id=${id}`,
-            defaultAxios.get(`walk/user/${id}`,
-                {headers: {"Authorization" : `${jwt}`}})
-                .then(response => {
-                    console.log(response, " 헤더값 : ", response.headers.authrozation);
-                    if (response.headers.authrozation !== null) {
-
-                        setValues({
-                            address: response.data.address ,
-                            email: response.data.email ,
-                            name: response.data.name ,
-                            phone: response.data.phone ,
-                            birthday: response.data.dateBirth
-                        });
-
-                    }
-                }).catch(err => {
-                    console.log("error!!", err);
-
-                });
-        }
+    useEffect(() => {
+        setUserInfoValues(
+            {
+                address: userInfo.props.address,
+                email: userInfo.props.email,
+                name: userInfo.props.name,
+                password: userInfo.props.password,
+                phone: userInfo.props.phone,
+                state: userInfo.props.state,
+                birthday: userInfo.props.birthday,
+            }
+        );
     } ,[]);
 
     const putUserDetail = (userData) => {
@@ -107,14 +58,13 @@ const UserDetail = (props) => {
     }
 
     const handleChange = (event) => {
-        setValues({
-            ...values,
+        setUserInfoValues({
+            ...userInfoValues,
             [event.target.name]: event.target.value
         });
     };
 
     return (
-
         <Box
             sx={{
             alignItems: 'center',
@@ -125,66 +75,10 @@ const UserDetail = (props) => {
             pt: 8,
         }} >
 
-
-            <Card {...props}
-                  sx={{
-                      width:"30%",
-                      height:"50%"
-                  }}
-            >
-                <CardContent>
-                    <Box
-                        sx={{
-                            alignItems: 'center',
-                            display: 'flex',
-                            flexDirection: 'column'
-                        }}
-                    >
-                        <Avatar
-                            src={userInfo.avatar}
-                            sx={{
-                                height: 80,
-                                mb: 2,
-                                width: 80
-                            }}
-                        />
-                        <Typography
-                            color="textPrimary"
-                            gutterBottom
-                            variant="h5"
-                        >
-                            {userInfo.name}
-                        </Typography>
-                        <Typography
-                            color="textSecondary"
-                            variant="body2"
-                        >
-                            {`${userInfo.city} ${userInfo.country}`}
-                        </Typography>
-                        <Typography
-                            color="textSecondary"
-                            variant="body2"
-                        >
-                            {userInfo.timezone}
-                        </Typography>
-                    </Box>
-                </CardContent>
-                <Divider />
-                <CardActions>
-                    <Button
-                        color="primary"
-                        variant="text"
-                    >
-                        Upload picture
-                    </Button>
-                </CardActions>
-            </Card>
-
-
             <form onSubmit={putUserDetail}
                 autoComplete="off"
                 noValidate
-                {...props}
+                {...userInfo}
             >
                 <Card>
                     <CardHeader
@@ -209,7 +103,7 @@ const UserDetail = (props) => {
                                     name="name"
                                     onChange={handleChange}
                                     required
-                                    value={values.name || ''}
+                                    value={userInfoValues.name || ''}
                                     variant="outlined"
                                 />
                             </Grid>
@@ -230,7 +124,7 @@ const UserDetail = (props) => {
                                     name="email"
                                     onChange={handleChange}
                                     required
-                                    value={values.email|| ''}
+                                    value={userInfoValues.email|| ''}
                                     variant="outlined"
                                 />
                             </Grid>
@@ -245,7 +139,7 @@ const UserDetail = (props) => {
                                     name="phone"
                                     onChange={handleChange}
                                     type="number"
-                                    value={values.phone|| ''}
+                                    value={userInfoValues.phone|| ''}
                                     variant="outlined"
                                 />
                             </Grid>
@@ -260,7 +154,7 @@ const UserDetail = (props) => {
                                     name="birthday"
                                     onChange={handleChange}
                                     required
-                                    value={values.birthday|| ''}
+                                    value={userInfoValues.birthday|| ''}
                                     variant="outlined"
                                 />
                             </Grid>
@@ -279,7 +173,7 @@ const UserDetail = (props) => {
                                     required
                                     select
                                     SelectProps={{ native: true }}
-                                    value={values.state || '익산'}
+                                    value={userInfoValues.state || '익산'}
                                     variant="outlined"
                                 >
                                     {states.map((option) => (
@@ -304,7 +198,7 @@ const UserDetail = (props) => {
                                     name="address"
                                     onChange={handleChange}
                                     required
-                                    value={values.address|| ''}
+                                    value={userInfoValues.address|| ''}
                                     variant="outlined"
                                 />
                             </Grid>
