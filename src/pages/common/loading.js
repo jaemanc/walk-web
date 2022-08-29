@@ -4,8 +4,6 @@ import {Box} from '@mui/material';
 
 function Loading (props) {
 
-    console.log(' props value :: ' , props);
-
     return (
         <Box
             sx={{ display: props.props ? 'block' : 'none' }}
