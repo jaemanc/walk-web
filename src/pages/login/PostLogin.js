@@ -26,9 +26,6 @@ const PostLogin = async (data) => {
         .then(response => {
             console.log(response, " 헤더값 : ", response.headers.authrozation);
             if (response.headers.authrozation !== null) {
-                // store의 login 정보 수정.
-                // store.dispatch({type:'LOGIN'})
-                // console.log('store에서 state 값 체크 : ', loginStore.getState());
                 // 로그인 정보를 세션에 기록한다.
                 doSignUp(response);
                 document.location.href = '/home'

@@ -279,7 +279,7 @@ const UserDetail = (props) => {
                                     required
                                     select
                                     SelectProps={{ native: true }}
-                                    value={values.state|| ''}
+                                    value={values.state || '익산'}
                                     variant="outlined"
                                 >
                                     {states.map((option) => (
@@ -291,14 +291,6 @@ const UserDetail = (props) => {
                                         </option>
                                     ))}
                                 </TextField>
-                                {/*<Button*/}
-                                {/*    md={4}*/}
-                                {/*    xs={12}*/}
-                                {/*    color="primary"*/}
-                                {/*    variant="contained"*/}
-                                {/*>*/}
-                                {/*    주소 찾기*/}
-                                {/*</Button>*/}
                             </Grid>
 
                             <Grid

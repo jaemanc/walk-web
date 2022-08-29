@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from "@mui/material/Avatar";
 import AppBar from "@mui/material/AppBar";
 
-function TopToolBar( props ) {
+function Header(props ) {
 
     const drawerWidth = 240;
 
@@ -77,4 +77,4 @@ function TopToolBar( props ) {
     );
 }
 
-export default TopToolBar;
+export default Header;

@@ -11,7 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import {Link} from "react-router-dom";
 import defaultAxios from "axios";
 import Search from "@mui/icons-material/Search";
-import Loading from "../common/loading";
+import Loading from "../common/Loading";
 import Modal from "react-modal";
 import axios from "axios";
 

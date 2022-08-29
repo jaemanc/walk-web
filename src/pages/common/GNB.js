@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import {mainListItems, secondaryListItems} from "./listItems";
+import {mainListItems, secondaryListItems} from "../home/listItems";
 import Box from '@mui/material/Box';
 import Drawer from "@mui/material/Drawer";
 import {styled} from "@mui/material/styles";
@@ -13,7 +13,7 @@ import Logout from "../login/Logout";
 
 
 
-function SideNavBar( props  ) {
+function GNB(props  ) {
 
     const Drawer = styled(MuiDrawer, { shouldForwardProp: (props) => props.open !== 'open' })(
         ({ theme, open }) => ({
@@ -85,4 +85,4 @@ function SideNavBar( props  ) {
     );
 }
 
-export default SideNavBar;
+export default GNB;

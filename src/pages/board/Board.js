@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from "@mui/material/CssBaseline";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import TopToolBar from "../home/TopToolBar";
-import SideNavBar from "../home/SideNavBar";
+import Header from "../common/Header";
+import GNB from "../common/GNB";
 import BoardList from "./BoardList";
 import axios from "axios";
 
-const mdTheme = createTheme();
 
 const Board = () =>  {
 
@@ -64,30 +63,17 @@ const Board = () =>  {
     }
 
     return (
-        <ThemeProvider theme={mdTheme}>
-            <Box sx={{
-                display: 'flex'
-            }}>
-                <CssBaseline />
+        <Box sx={{
+            mt:1
+            , ml:1
+            , mr:1
+            , width : '80%'
+        }}>
+            {/*검색 툴바 */}
 
-                {/* 상단 대시보드 App bar */}
-                <TopToolBar toggleDrawer={toggleDrawer} open={open}/>
-
-                {/* 사이드 nav bar*/}
-                <SideNavBar toggleDrawer={toggleDrawer} open={open}/>
-                <Box sx={{
-                    mt:1
-                    , ml:1
-                    , mr:1
-                    , width : '80%'
-                }}>
-                    {/*검색 툴바 */}
-
-                    {/* 리스트 목록 */}
-                    <BoardList/>
-                </Box>
-            </Box>
-        </ThemeProvider>
+            {/* 리스트 목록 */}
+            <BoardList/>
+        </Box>
     );
 }
 
