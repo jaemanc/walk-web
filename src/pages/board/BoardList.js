@@ -102,7 +102,6 @@ const BoardList = () => {
     }
 
     function searchPosts (e) {
-
         e.preventDefault();
         setLoading(true);
         let boardId = 0;
@@ -120,8 +119,7 @@ const BoardList = () => {
                 "Authorization": `${jwt}`
             }})
             .then(response => {
-
-                console.log(' response data of requested post update  :: ', response);
+                console.log(' response data >>> ', response);
                 setisOpen(false);
                 setLoading(false);
 
@@ -130,10 +128,12 @@ const BoardList = () => {
                         response.data
                     );
                 } else {
+                    window.alert(' 검색 결과가 존재하지 않습니다. ');
                     console.log(' 검색 결과가 존재하지 않습니다. ');
                 }
             }).catch(err => {
             console.log("error!!", err);
+
         });
 
     }
@@ -209,12 +209,6 @@ const BoardList = () => {
                             mr:1
                             ,ml: 1
                         }}>
-
-
-
-
-
-
                             <TextField sx={{width:"60%"}}
                                        InputProps={{
                                            startAdornment: (
@@ -234,11 +228,6 @@ const BoardList = () => {
                                            value : e.target.value
                                        })}
                             />
-
-
-
-
-
                                 <Loading props={loading}/>
                             <Button
                                 sx={{

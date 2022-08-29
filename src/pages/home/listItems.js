@@ -13,7 +13,6 @@ import Assignment from '@mui/icons-material/Assignment';
 
 export const mainListItems = (
   <React.Fragment>
-
     <ListItemButton component={Link} to="/home">
       <ListItemIcon>
         <Home />
@@ -35,7 +34,7 @@ export const mainListItems = (
       <ListItemText primary="Board" />
     </ListItemButton>
 
-    <ListItemButton>
+    <ListItemButton component={Link} to="/course">
       <ListItemIcon>
         <AltRoute />
       </ListItemIcon>
