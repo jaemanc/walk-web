@@ -1,6 +1,6 @@
 import React from 'react';
-import imgeTemp from "../../assets/images/kakao_login_medium.png"
-import fishImage from "../../assets/images/32fish.png"
+import startImage from "../../assets/images/logout_16.png"
+import arrvImage from "../../assets/images/login_16.png"
 
 const {naver} = window;
 
@@ -13,8 +13,17 @@ const NaverMapScript = ( props ) => {
         position: 'releative'
     });
 
-    map.setOptions("mapTypeControl", true);
-    map.setOptions("zoomControl", true);
+    var mapOptions = {
+        zoomControl: true,
+        zoomControlOptions: {
+            style: naver.maps.ZoomControlStyle.SMALL,
+            position: naver.maps.Position.TOP_RIGHT
+        },
+        logoControl: true,
+        mapDataControl: true,
+    }
+    map.setOptions(mapOptions);
+
 
     var icon = {
         url: "../../assets/images/rocket-512.png",
@@ -27,7 +36,7 @@ const NaverMapScript = ( props ) => {
         position: new naver.maps.LatLng(37.3595704, 127.105399),
         map: map,
         icon: {
-            url: fishImage,
+            url: startImage,
             size: new naver.maps.Size(22, 35),
             anchor: new naver.maps.Point(11, 35)
         }
@@ -37,7 +46,7 @@ const NaverMapScript = ( props ) => {
         position: new naver.maps.LatLng(37.3598704, 127.105599),
         map: map,
         icon: {
-            url: imgeTemp,
+            url: arrvImage,
             size: new naver.maps.Size(22, 35),
             anchor: new naver.maps.Point(11, 35)
         }
@@ -47,20 +56,15 @@ const NaverMapScript = ( props ) => {
     let destMarker = new naver.maps.Marker(destMarkerOptions);
 
     let flag = Boolean(true);
-    // var menuLayer = '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>';
-
     let menuLayer = document.createElement('div');
     menuLayer.id = 'btnId';
     menuLayer.innerHTML = 'test123123123123123213';
     menuLayer.style.display = 'none';
 
-    // document.body.insertBefore(menuLayer, map);
     document.body.appendChild(menuLayer);
-    //map.getPanes().floatPane.appendChild(menuLayer);
     map.getPanes().floatPane.appendChild(menuLayer);
 
     naver.maps.Event.addListener(map, 'click', function(e){
-
 
         if (flag) {
             console.log(" 출발점 셋팅 :: ", e.coord);

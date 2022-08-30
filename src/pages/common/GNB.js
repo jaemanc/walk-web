@@ -4,12 +4,12 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import {mainListItems, secondaryListItems} from "../home/listItems";
+import {mainListItems, secondaryListItems} from "./listItems";
 import Box from '@mui/material/Box';
 import Drawer from "@mui/material/Drawer";
 import {styled} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import Logout from "../login/Logout";
+import LogInSideBtn from "../login/LogInSideBtn";
 
 
 
@@ -77,7 +77,7 @@ function GNB(props  ) {
                 <Box sx={{
                     mt:2
                 }}>
-                    <Logout open={props.open}/>
+                    <LogInSideBtn open={props.open}/>
                 </Box>
 
             </Drawer>

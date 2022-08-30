@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { InputAdornment, SvgIcon, TextField, Typography} from "@mui/material";
 import Search from "@mui/icons-material/Search";
-import Loading from "../common/loading";
+import Loading from "../common/Loading";
 import axios from "axios";
 
 const CourseList = () => {

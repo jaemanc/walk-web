@@ -28,7 +28,7 @@ const Copyright = (props) => {
 
 const theme = createTheme();
 
-const Main = () => {
+const Home = () => {
 
     const [LoginData, setLoginData] = useState({
         // 초기 셋팅
@@ -194,4 +194,4 @@ const Main = () => {
 
 
 
-export default Main;
+export default Home;

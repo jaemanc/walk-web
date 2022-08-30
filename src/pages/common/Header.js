@@ -67,7 +67,6 @@ function Header(props ) {
                 </Typography>
                 <IconButton color="inherit">
                     <Badge badgeContent={1} color="secondary">
-
                         <Avatar />
                     </Badge>
                 </IconButton>

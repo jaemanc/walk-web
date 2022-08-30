@@ -2,7 +2,6 @@ import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Home from '@mui/icons-material/Home';
 import Person from '@mui/icons-material/Person';
 import AltRoute from '@mui/icons-material/AltRoute';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -10,14 +9,15 @@ import ContentPaste from '@mui/icons-material/ContentPaste';
 import { Link } from "react-router-dom";
 import ListSubheader from "@mui/material/ListSubheader";
 import Assignment from '@mui/icons-material/Assignment';
+import WhereToVoteIcon from '@mui/icons-material/WhereToVote';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton component={Link} to="/home">
+    <ListItemButton component={Link} to="/main">
       <ListItemIcon>
-        <Home />
+        <WhereToVoteIcon />
       </ListItemIcon>
-      <ListItemText primary="Home" />
+      <ListItemText primary="Main" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/user">

@@ -1,6 +1,4 @@
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,8 +7,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import NaverMap from "./NaverMap";
-import Header from "../common/Header";
-import GNB from "../common/GNB";
 
 function Copyright(props) {
     return (
@@ -29,7 +25,7 @@ function Copyright(props) {
     );
 }
 
-const Home = () => {
+const Main = () => {
 
     return (
         <Box
@@ -71,4 +67,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Main;

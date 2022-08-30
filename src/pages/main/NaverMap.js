@@ -11,10 +11,8 @@ export default function NaverMap() {
     });
 
     useEffect(() => {
-
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
         navigator.geolocation.getCurrentPosition(function(position) {
-
             var crd = position.coords;
 
             console.log('Your current position is:');
@@ -35,6 +33,7 @@ export default function NaverMap() {
             width: '100%',
             height: '80vh'
         }}>
+
         </div>
     );
 }

@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import TextField from '@mui/material/TextField';
 import Box from "@mui/material/Box";
 import PostLogin from "./PostLogin";
+import {Grid} from "@mui/material";
 
 const customStyles = {
     content: {
@@ -21,7 +22,7 @@ const customStyles = {
 
 Modal.setAppElement(document.getElementById('root'));
 
-const LogInOutBtn = (props) => {
+const LogInSideBtn = (props) => {
     let subtitle;
     const [modalisOpen, setisOpen] = React.useState(false);
     const [logoutModalisOpen, setLogoutModalisOpen] = React.useState(false);
@@ -111,118 +112,116 @@ const LogInOutBtn = (props) => {
     }
 
     return (
-        <>
-            <Button
-                    className="modalBtn"
-                    color="primary"
-                    variant="contained"
-                    onClick={openModal}>{props.loginStatus !==true ? "Logout" : "Login"}</Button>
+
+        <Grid item xs={12} sm={8} md={5}>
+            <Box sx={{
+                my: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <Button
+                        className="modalBtn"
+                        color="primary"
+                        variant="contained"
+                        onClick={openModal}>{props.loginStatus !==true ? "Logout" : "Login"}</Button>
+                    <Modal
+                        isOpen={modalisOpen}
+                        onAfterOpen={afterOpenModal}
+                        onRequestClose={closeModal}
+                        style={customStyles}
+                        contentLabel="Example Modal"
+                    >
+                        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Welcome</h2>
+                        {/*<Button onClick={closeModal}> close </Button>*/}
+
+                        <Box
+                            sx={{
+                                m: 3
+                            }}
+                            textAlign='center' component="form" onSubmit={handleSubmit}>
+
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="email"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={LoginData.email || ''}
+                                    onChange={e => setLoginData({
+                                        email: e.target.value,
+                                        password: LoginData.password
+                                    }) }
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    value={LoginData.password|| ''}
+                                    onChange={e => setLoginData({
+                                        email: LoginData.email,
+                                        password: e.target.value
+                                    }) }
+                                />
+                            <Button
+                                type="submit"
+                                className="modalBtn"
+                                color="primary"
+                                variant="contained"
+                                sx={{mr:3}}
+                            >Go</Button>
+                            <Button
+                                className="modalBtn"
+                                color="primary"
+                                variant="contained"
+                                onClick={closeModal}
+                            >Cancel</Button>
+                        </Box>
+                    </Modal>
+
+
+                {/*  LogoutModal   */}
                 <Modal
-                    isOpen={modalisOpen}
+                    isOpen={logoutModalisOpen}
                     onAfterOpen={afterOpenModal}
                     onRequestClose={closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
                 >
-                    <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Welcome</h2>
-                    {/*<Button onClick={closeModal}> close </Button>*/}
-
+                    <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Logout 하시겠습니까?</h2>
                     <Box
                         sx={{
                             m: 3
                         }}
                         textAlign='center' component="form" onSubmit={handleSubmit}>
-
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="email"
-                                name="email"
-                                autoComplete="email"
-                                value={LoginData.email || ''}
-                                onChange={e => setLoginData({
-                                    email: e.target.value,
-                                    password: LoginData.password
-                                }) }
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={LoginData.password|| ''}
-                                onChange={e => setLoginData({
-                                    email: LoginData.email,
-                                    password: e.target.value
-                                }) }
-                            />
                         <Button
                             type="submit"
                             className="modalBtn"
                             color="primary"
                             variant="contained"
                             sx={{mr:3}}
+                            onClick={onLogout}
                         >Go</Button>
                         <Button
                             className="modalBtn"
                             color="primary"
                             variant="contained"
-                            onClick={closeModal}
+                            onClick={closeLogoutModal}
                         >Cancel</Button>
                     </Box>
                 </Modal>
+            </Box>
+        </Grid>
 
 
-            {/*  LogoutModal   */}
-            <Modal
-                isOpen={logoutModalisOpen}
-                onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Logout 하시겠습니까?</h2>
-                <Box
-                    sx={{
-                        m: 3
-                    }}
-                    textAlign='center' component="form" onSubmit={handleSubmit}>
-                    <Button
-                        type="submit"
-                        className="modalBtn"
-                        color="primary"
-                        variant="contained"
-                        sx={{mr:3}}
-                        onClick={onLogout}
-                    >Go</Button>
-                    <Button
-                        className="modalBtn"
-                        color="primary"
-                        variant="contained"
-                        onClick={closeLogoutModal}
-                    >Cancel</Button>
-                </Box>
-            </Modal>
-
-                {/*<Button*/}
-                {/*    color="primary"*/}
-                {/*    variant="contained"*/}
-                {/*    toggle={testFunction}*/}
-                {/*    onClick={(event) => {*/}
-                {/*        console.log(" 로그아웃 버튼을 누름 :: ", sessionStorage.getItem("email"));*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    {loginStatus === true ? "Logout" : "Login"}*/}
-                {/*</Button>*/}
-
-        </>
     )
 }
 
-export default LogInOutBtn;
+export default LogInSideBtn;
