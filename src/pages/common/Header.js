@@ -63,7 +63,7 @@ function Header(props ) {
                 </Typography>
 
                 <Typography >
-                    {window.sessionStorage.getItem("email")!==null ? window.sessionStorage.getItem("email") : "Guest"}
+                    {window.sessionStorage.getItem("email") !== null ? window.sessionStorage.getItem("email") : "Guest"}
                 </Typography>
                 <IconButton color="inherit">
                     <Badge badgeContent={1} color="secondary">

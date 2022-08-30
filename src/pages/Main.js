@@ -30,8 +30,6 @@ const theme = createTheme();
 
 const Main = () => {
 
-    const {register} = useForm();
-
     const [LoginData, setLoginData] = useState({
         // 초기 셋팅
         email:"",
