@@ -26,8 +26,6 @@ const Copyright = (props) => {
     </Typography>
 }
 
-const theme = createTheme();
-
 const Home = () => {
 
     const [LoginData, setLoginData] = useState({
@@ -69,13 +67,6 @@ const Home = () => {
             console.log("effect : " , LoginData.password, LoginData.email);
         }
     },[LoginData]);
-
-    // const onChange = useCallback( e => {
-    //
-    //     setLoginData({...LoginData}, e.target.value);
-    //         console.log(e.target.value);
-    //
-    // },[]);
 
     return (
         <div>

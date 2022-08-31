@@ -77,8 +77,6 @@ const BoardList = () => {
         }
     }
 
-    let jwt = sessionStorage.getItem("jwt");
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (postInfo.postMsg === '') {
@@ -89,7 +87,7 @@ const BoardList = () => {
                 {
                     ...postInfo
                 },
-                {headers: {"Authorization": `${jwt}`}})
+                {})
                 .then(response => {
                     console.log(' response data of requested post update  :: ', response.data);
                     window.alert('등록 되었습니다.');
@@ -114,10 +112,8 @@ const BoardList = () => {
                 keyword: search.value,
                 page: page,
                 size:0
-            },
-            headers :{
-                "Authorization": `${jwt}`
-            }})
+            }
+        })
             .then(response => {
                 console.log(' response data >>> ', response);
                 setisOpen(false);
@@ -150,7 +146,7 @@ const BoardList = () => {
     useEffect(()=>{
         let jwt = sessionStorage.getItem("jwt");
         defaultAxios.get(`walk/post?page=${page}&size=${limit}`,
-            {headers: {"Authorization" : `${jwt}`}})
+            {})
             .then(response=>{
                 //console.log(`return value :: `, response);
                 setBoards(
@@ -318,7 +314,7 @@ const BoardList = () => {
                 </Modal>
             </Box>
             <PerfectScrollbar>
-                <Box SX={{minWidth: 1050}}>
+                <Box sx={{minWidth: 1050}}>
                     <Table>
 
                         <TableHead>

@@ -28,7 +28,7 @@ const PostLogin = async (data) => {
             if (response.headers.authrozation !== null) {
                 // 로그인 정보를 세션에 기록한다.
                 doSignUp(response);
-                document.location.href = '/home'
+                document.location.href = '/main'
                 flag = !flag;
             }
         }).catch(err => {

@@ -9,7 +9,8 @@ import GNB from "./pages/common/GNB";
 import Header from "./pages/common/Header";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from '@mui/material/Box';
-import Main from './pages/main/Main';
+import Home from "./pages/Home";
+import Main from "./pages/main/Main";
 
 const App = () => {
 
@@ -35,7 +36,7 @@ const App = () => {
           >
               <BrowserRouter>
                   <Routes>
-                      <Route path="/" element={<Main />}/>
+                      <Route path="/" element={<Home />}/>
                   </Routes>
               </BrowserRouter>
           </Box>

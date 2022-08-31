@@ -38,6 +38,7 @@ const UserDetail = (userInfo) => {
     });
 
     useEffect(() => {
+
         setUserInfoValues(
             {
                 address: userInfo.props.address,
@@ -49,7 +50,8 @@ const UserDetail = (userInfo) => {
                 birthday: userInfo.props.birthday,
             }
         );
-    } ,[]);
+
+    } ,[userInfo]);
 
     const putUserDetail = (userData) => {
 

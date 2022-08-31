@@ -1,25 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from "@mui/material/Box";
 import {Avatar, Button, Card, CardActions, CardContent, Divider, Typography} from "@mui/material";
 
-const userInfo = {
-    avatar: '/static/images/avatars/avatar_6.png',
-    city: 'Los Angeles',
-    country: 'USA',
-    jobTitle: 'Senior Developer',
-    name: 'Katarina Smith',
-    timezone: 'GTM-7'
-};
-
-/*
-
-DEtail로 합쳐져있으나 분리 할 예정.
-
-
-
-*/
-
 function UserInfo(props) {
+
+    useEffect(()=>{
+    },[props])
+
+
     return (
         <Box
             sx={{
@@ -47,7 +35,7 @@ function UserInfo(props) {
                         }}
                     >
                         <Avatar
-                            src={userInfo.avatar}
+                            src={props.props.avatar}
                             sx={{
                                 height: 80,
                                 mb: 2,
@@ -59,19 +47,19 @@ function UserInfo(props) {
                             gutterBottom
                             variant="h5"
                         >
-                            {userInfo.name}
+                            {props.props.name}
                         </Typography>
                         <Typography
                             color="textSecondary"
                             variant="body2"
                         >
-                            {`${userInfo.city} ${userInfo.country}`}
+                            {`${props.props.city} ${props.props.country}`}
                         </Typography>
                         <Typography
                             color="textSecondary"
                             variant="body2"
                         >
-                            {userInfo.timezone}
+                            {props.props.timezone}
                         </Typography>
                     </Box>
                 </CardContent>

@@ -24,7 +24,6 @@ const NaverMapScript = ( props ) => {
     }
     map.setOptions(mapOptions);
 
-
     var icon = {
         url: "../../assets/images/rocket-512.png",
         size: new naver.maps.Size(24, 37),

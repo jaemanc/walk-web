@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Header from "../common/Header";
-import GNB from "../common/GNB";
 import {useParams} from "react-router-dom";
 import {Button, Typography} from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -12,7 +8,7 @@ import defaultAxios from "axios";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
 
-const Posts = (props)=> {
+const Posts = ()=> {
     let [originalMsg , setOriginalMsg] = useState("temp");
     const {postId} = useParams();
     const [postDetail, setPostDetail] = useState([{

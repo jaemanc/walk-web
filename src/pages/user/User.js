@@ -1,18 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import Header from "../common/Header";
-import GNB from "../common/GNB";
 import UserDetail from "./UserDetail";
 import UserInfo from "./UserInfo";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import UserDetailFile from "./UserDetailFile";
 import UserDetailCourse from "./UserDetailCourse";
 import defaultAxios from "axios";
+import Button from "@mui/material/Button";
 
-const User = (props) => {
+const User = () => {
 
     const [infoOpen, setInfoOpen] = useState(true);
-    const [detailOpen, setDetailOpen] = useState(true);
     const [detailCourseOpen, setDetailCourseOpen] = useState(false);
     const [detailFileOpen, setDetailFileOpen] = useState(false);
 
@@ -22,18 +19,39 @@ const User = (props) => {
         name: 'Katarina',
         password: '',
         phone: '01099881122',
-        state: 'Alabama',  // state가 애매하네 이거 .
+        state: 'Alabama',
         birthday: '19930717'
     });
 
-    const userInfo = {
-        avatar: '/static/images/avatars/avatar_6.png',
-        city: 'Los Angeles',
-        country: 'USA',
-        jobTitle: 'Senior Developer',
-        name: 'Katarina Smith',
-        timezone: 'GTM-7'
-    };
+    function openUserInfo () {
+        setInfoOpen(true);
+        if (infoOpen) {
+            setInfoOpen(false);
+        }
+    }
+
+    function openUserDetailCourse () {
+
+        console.log(' usr crs detail values...? : ' , detailCourseOpen);
+
+        setDetailCourseOpen(true);
+
+        if (detailCourseOpen) {
+            setDetailCourseOpen(false);
+        }
+    }
+
+    function openUserFiles () {
+
+        console.log(' usr file detail values...? : ' , detailFileOpen);
+
+
+        setDetailFileOpen(true);
+
+        if (detailFileOpen) {
+            setDetailFileOpen(false)
+        }
+    }
 
     useEffect(()=>{
 
@@ -42,10 +60,8 @@ const User = (props) => {
     useEffect(() => {
         let id = sessionStorage.getItem("id");
         let email = sessionStorage.getItem("email");
-        let jwt = sessionStorage.getItem("jwt");
         // 세션에 값이 없는 경우 :
         if ( id === null || email === null ) {
-            // 게스트 or neet login...
             setUserInfoValues({
                 address: 'need login',
                 email: 'need@login..!',
@@ -57,12 +73,10 @@ const User = (props) => {
             });
 
         } else {
-            const jwtConfig = {headers: {Authorization: `Bearer ${jwt}`}};
-
             defaultAxios.get(`walk/user/${id}`,
-                {headers: {"Authorization" : `${jwt}`}})
+                {})
                 .then(response => {
-                    console.log(response, " 헤더값 : ", response.headers.authrozation);
+                    // console.log(response, " 헤더값 : ", response.headers.authrozation);
                     if (response.headers.authrozation !== null) {
 
                         setUserInfoValues({
@@ -82,7 +96,17 @@ const User = (props) => {
     return (
             <Box>
 
+                <Button
+                    variant="text"
+                    onClick={openUserInfo}
+                    sx={{
+                        mt:10
+                    }}
+                >USER INFO</Button>
+
                 <Box display="flex">
+
+
                     <UserInfo
                         style={{
                             visibility : infoOpen ? 'visible' : 'hidden'
@@ -92,19 +116,33 @@ const User = (props) => {
                     />
                     <UserDetail
                         style={{
-                            visibility : detailOpen ? 'visible' : 'hidden'
-                            ,height: detailOpen ? '' : '0'
+                            visibility : infoOpen ? 'visible' : 'hidden'
+                            ,height: infoOpen ? '' : '0'
                         }}
                         props={userInfoValues}
                     />
+
+
                 </Box>
+
                 <Box>
+                        <Button
+                            variant="text"
+                            onClick={openUserDetailCourse}
+                        >User Course
+                        </Button>
+
                     <UserDetailCourse
                         style={{
                             visibility : detailCourseOpen ? 'visible' : 'hidden'
                             ,height: detailCourseOpen ? '' : '0'
                         }}
                     />
+
+                    <Button
+                        variant="text"
+                        onClick={openUserFiles}
+                    >User Course Images</Button>
 
                     <UserDetailFile
                         style={{

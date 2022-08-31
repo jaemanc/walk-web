@@ -9,12 +9,15 @@ const Interceptor = (props) => {
         timeout: 1000,
     })
 
+    let jwt = sessionStorage.getItem("jwt");
+
     // request interceptor
-    axios.interceptors.request.use(function (config){
+    axios.interceptors.request.use(config => {
+        config.headers['Authorization'] = `${jwt}`;
         return config;
-    }, function (error) {
+    }, error => {
         return Promise.reject(error);
-    });
+    })
 
     // response interceptor
     axios.interceptors.response.use(function (response) {
