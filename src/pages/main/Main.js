@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,14 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import NaverMap from "./NaverMap";
+import Button from "@mui/material/Button";
+import FindPath from "./FindPath";
+import PostCourse from "./PostCourse";
+import PostImage from "./PostImage";
+import TMap from "./TMap";
 
 function Copyright(props) {
+
     return (
         <Box sx={{
             m : "2rem"
@@ -38,29 +44,51 @@ const Main = () => {
                 flexGrow: 1,
                 height: '100vh',
                 overflow: 'hidden',
+                justifyContent:'left',
+                alignItems:'left',
+                alignContent:'left',
             }}
         >
             <Toolbar />
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                <Grid container spacing={1} height="100%">
+            <Container maxWidth="" sx={{ mt: 4, mb: 4 }}>
 
-                    <Grid item xs = {12}>
+                        <Box sx={{
+                            display:'flex',
+                            justifyContent:'left',
+                            alignItems:'left',
+                            alignContent:'left',
+                        }}>
+                            <Box
+                                sx={{
+                                    mt:1,
+                                    ml:0,
+                                    mr:1,
+                                    width:'8%'
+                                }}
+                                fullwidth="true"
+                            >
+                                {/*<FindPath />*/}
+                                <PostCourse />
+                                <PostImage />
+                            </Box>
+                            {/* 사진 첨부하려면.. 마커를 하나 또 찍어야 함.....*/}
 
-                        <Paper id="mapPaper"
-                            sx={{
-                                p: 2,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: 1,
-                                width: 1,
-                            }}
-                        >
-                            <NaverMap />
-                        </Paper>
+                            {/*<Paper id="mapPaper"*/}
+                            {/*    sx={{*/}
+                            {/*        p: 2,*/}
+                            {/*        display: 'flex',*/}
+                            {/*        flexDirection: 'column',*/}
+                            {/*        height: '85px',*/}
+                            {/*        width: '85%',*/}
+                            {/*    }}*/}
+                            {/*>*/}
+                                <TMap />
+                                {/*<NaverMap />*/}
 
-                    </Grid>
+                            {/*</Paper>*/}
 
-                </Grid>
+                        </Box>
+
                 <Copyright sx={{ pt: 4 }} />
             </Container>
         </Box>

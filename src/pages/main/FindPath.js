@@ -1,6 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import axios from "axios";
 
-function NaverMapFindPath(props) {
+
+const FindPath = (props) => {
+
+    const [startLocation, setStartLocation] = useState(
+        {
+            x:"37.57275",
+            y:"126.8990034"
+        }
+    );
+
+    const [destLocation, setDestLocation] = useState(
+        {
+            x:"38.57277",
+            y:"127.8990035"
+        }
+    );
+    axios.get(`/walk/course`
+        ,{
+            params:{
+                start: `${startLocation.y}+','+${startLocation.x}`,
+                goal: `${destLocation.y}+','+${destLocation.x}`,
+                option: ``,
+            }
+        }
+    )
+        .then(response => {
+            console.log(' response data >>> ', response);
+
+            if (response.status === 200) {
+            } else {
+                window.alert(' 검색 결과가 존재하지 않습니다. ');
+                console.log(' 검색 결과가 존재하지 않습니다. ');
+            }
+        }).catch(err => {
+        console.log("error!!", err);
+    });
+
+
+
     // 경로 요청 예시 :
     //  curl "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=127.1058342,37.359708&goal=129.075986,35.179470&option=trafast" \
     // 	-H "X-NCP-APIGW-API-KEY-ID: {애플리케이션 등록 시 발급받은 client id 값}" \
@@ -128,9 +169,28 @@ function NaverMapFindPath(props) {
      */
 
 
+
+
+
+    useEffect(()=>{
+        console.log(' 길을 찾든가 말든가... 내 알바 아니니께..!!');
+        console.log(' 찾고 싶은 경로의 출발점 :: ' , startLocation );
+        console.log(' 찾고 싶은 경로의 도착점 :: ' , destLocation );
+    },[props]);
+
     return (
-        <div></div>
+
+        <Box>
+            <Button
+                sx={{
+                    mb:2
+                }}
+                size="small" variant="contained"
+            > 길 찾기</Button>
+
+        </Box>
+
     );
 }
 
-export default NaverMapFindPath;
+export default FindPath;

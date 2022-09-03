@@ -9,4 +9,18 @@ module.exports = function(app) {
             ws: false,
         })
     );
+    app.use(
+        '/naver',
+        createProxyMiddleware({
+            target: 'https://naveropenapi.apigw.ntruss.com',
+            changeOrigin: true,
+            ws: false,
+        })
+
+    );
+
+
+
+
+
 };
