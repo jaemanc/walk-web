@@ -6,10 +6,11 @@ function PostCourse(props) {
     return (
         <Button
             sx={{
-                mb:2
+                mb:2,
+                width:'100%'
             }}
             size="small"
-            variant="contained" >코스 등록</Button>
+            variant="contained" >경로기록</Button>
     );
 }
 

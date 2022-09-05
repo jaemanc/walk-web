@@ -58,34 +58,10 @@ const Main = () => {
                             alignItems:'left',
                             alignContent:'left',
                         }}>
-                            <Box
-                                sx={{
-                                    mt:1,
-                                    ml:0,
-                                    mr:1,
-                                    width:'8%'
-                                }}
-                                fullwidth="true"
-                            >
-                                {/*<FindPath />*/}
-                                <PostCourse />
-                                <PostImage />
-                            </Box>
                             {/* 사진 첨부하려면.. 마커를 하나 또 찍어야 함.....*/}
+                            {/*    <TMap />*/}
+                            <NaverMap />
 
-                            {/*<Paper id="mapPaper"*/}
-                            {/*    sx={{*/}
-                            {/*        p: 2,*/}
-                            {/*        display: 'flex',*/}
-                            {/*        flexDirection: 'column',*/}
-                            {/*        height: '85px',*/}
-                            {/*        width: '85%',*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                                <TMap />
-                                {/*<NaverMap />*/}
-
-                            {/*</Paper>*/}
 
                         </Box>
 
