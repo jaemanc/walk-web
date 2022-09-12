@@ -13,6 +13,12 @@ const FindPath = (props) => {
         endY:'126.777777',
     })
 
+    // polyline 좌표 기준 길 표시.
+    const [polyLine, setPolyLine ] = useState([{
+        x : 37.5176422,
+        y : 126.8990036
+    }]);
+
     useEffect(()=>{
         setSelectLoc({
             startX:props.props.startX,
@@ -42,6 +48,17 @@ const FindPath = (props) => {
             console.log(' response data >>> ', response);
 
             if (response.status === 200) {
+
+                // 도보 길찾은 정보를 -> setPolyLine으로 리턴.
+
+
+
+
+
+
+
+
+
             } else {
                 window.alert(' 검색 결과가 존재하지 않습니다. ');
                 console.log(' 검색 결과가 존재하지 않습니다. ');

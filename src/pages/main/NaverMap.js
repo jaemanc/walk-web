@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import NaverMapScript from "./NaverMapScript";
 import Box from "@mui/material/Box";
 import FindPath from "./FindPath";
@@ -29,6 +29,12 @@ export default function NaverMap() {
         endY:37.4444444,
     });
 
+    // polyline 좌표 기준 길 표시.
+    const [polyLine, setPolyLine ] = useState([{
+        x : 37.5176422,
+        y : 126.8990036
+    }]);
+
     useEffect(() => {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -39,14 +45,14 @@ export default function NaverMap() {
             })
         });
 
-        var mapDiv = document.getElementById('map');
+        let mapDiv = document.getElementById('map');
 
-        var map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
+        let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
             zoom: 14,
             position: 'releative'
         });
 
-        var mapOptions = {
+        let mapOptions = {
             zoomControl: true,
             zoomControlOptions: {
                 style: naver.maps.ZoomControlStyle.SMALL,
@@ -103,7 +109,7 @@ export default function NaverMap() {
         });
 
 
-        var polylinePath = [
+        let polylinePath = [
             new naver.maps.LatLng(37.4526437, 126.49236),
             new naver.maps.LatLng(37.4768068, 126.4847975),
             new naver.maps.LatLng(37.4988237, 126.4960839),
@@ -147,7 +153,7 @@ export default function NaverMap() {
             new naver.maps.LatLng(37.2762087, 127.0808982)
         ];
 
-        var polyline = new naver.maps.Polyline({
+        let polyline = new naver.maps.Polyline({
             path: polylinePath,      //선 위치 변수배열
             strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
             strokeOpacity: 0.8, //선 투명도 0 ~ 1
@@ -155,7 +161,7 @@ export default function NaverMap() {
             map: map           //오버레이할 지도
         });
 
-        var marker = new naver.maps.Marker({
+        let marker = new naver.maps.Marker({
             position: polylinePath[polylinePath.length-1],
             map:map
         });
@@ -207,8 +213,8 @@ export default function NaverMap() {
                     width:'7%'
                 }}
             >
-                <FindPath props = {selectLoc}/>
-                <PostCourse />
+                <FindPath props = {selectLoc} setValue={setPolyLine}/>
+                <PostCourse props = {polyLine}/>
                 <PostImage />
             </Box>
 
