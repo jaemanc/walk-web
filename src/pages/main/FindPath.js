@@ -7,16 +7,18 @@ import axios from "axios";
 const FindPath = (props) => {
 
     const [selectLoc, setSelectLoc] = React.useState({
-        startX:'37.0000000',
-        startY:'126.999999',
-        endX:'37.8888888',
-        endY:'126.777777',
+        startX:37.0000000,
+        startY:126.999999,
+        endX:37.8888888,
+        endY:126.777777,
     })
 
     // polyline 좌표 기준 길 표시.
-    const [polyLine, setPolyLine ] = useState([{
-        x : 37.5176422,
-        y : 126.8990036
+
+    const [polyLine, setPolyLine ] = React.useState([{
+        x : '37.5176422',
+        y : '126.8990036'
+
     }]);
 
     useEffect(()=>{
@@ -30,33 +32,43 @@ const FindPath = (props) => {
 
     function onClick (e) {
         e.preventDefault();
-        console.log(' 찾았나..? 1 ', props.props.startY);
-        console.log(' 찾았나..? 2 ', props.props.startX);
-        console.log(' 찾았나..? 3 ', props.props.endY);
-        console.log(' 찾았나..? 4 ', props.props.endX);
 
+        let startStr = props.props.startY+','+props.props.startX;
+        let goalStr = props.props.endY+','+props.props.endX;
+
+        console.log( '출발 요청값 : ', startStr);
+        console.log('도착 요청값 : ', goalStr);
 
         axios.get(`/walk/course/walk-path`
             ,{
                 params:{
-                    start: `${props.props.startY}+','+${props.props.startX}`,
-                    goal: `${props.props.endY}+','+${props.props.endX}`,
-                    option: ``,
+                    start: startStr,
+                    goal: goalStr
                 }
             }
         ).then(response => {
-            console.log(' response data >>> ', response);
-
             if (response.status === 200) {
+                let py = '';
+                let px = '';
+                response.data.map((polyTemp) => {
+                    let flag = false;
+                    if (polyTemp.startsWith('1')) {
+                        py = polyTemp;
+                        flag = false;
+                    } else {
+                        px = polyTemp;
+                        flag = true;
+                    }
+                    if (flag) {
+                        polyLine.push({
+                            x: px,
+                            y: py
+                        })
+                    }
+                })
+                setPolyLine(polyLine);
 
-                // 도보 길찾은 정보를 -> setPolyLine으로 리턴.
-
-
-
-
-
-
-
+                props.setValue(polyLine);
 
 
             } else {
