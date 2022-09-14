@@ -15,63 +15,25 @@ export default function NaverMap() {
 
     // latitude = 위도 -- 37
     // longitude = 경도 -- 127
-
-
     const [currLoc, setCurrLoc] = React.useState({
         x:37.57275,
         y:126.8990036
     });
 
     const [selectLoc, setSelectLoc] = React.useState({
-        startX:126.1111111,
-        startY:37.22222222,
-        endX:126.3333333,
-        endY:37.4444444,
+        startX:37.22222222,
+        startY:126.1111111,
+        endX:37.4444444,
+        endY:126.3333333,
     });
 
-    // polyline 좌표 기준 길 표시.
+    // polyline 및 시간 거리 체크
     const [polyLine, setPolyLine ] = useState([{
         x : 37.5176422,
-        y : 126.8990036
+        y : 126.8990036,
+        time: 0,
+        distance : 0,
     }]);
-
-    useEffect(() => {
-        console.log(' 지도에서 캐치했습니까 :: ', polyLine);
-        let mapDiv = document.getElementById('map');
-
-        let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(polyLine.x !== null ? polyLine.x : currLoc.x , polyLine.y !== null ? polyLine.y : currLoc.y),
-            zoom: 14,
-            position: 'releative'
-        });
-
-
-        // let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
-        //     zoom: 14,
-        //     position: 'releative'
-        // });
-
-        let polylinePath = [];
-
-        let i;
-        for (i = 1; i < polyLine.length; i ++ ) {
-            let position = new naver.maps.LatLng(polyLine[i].x, polyLine[i].y);
-            polylinePath.push(position);
-        }
-
-        let polyline = new naver.maps.Polyline({
-            path: polylinePath,      //선 위치 변수배열
-            strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-            strokeOpacity: 0.8, //선 투명도 0 ~ 1
-            strokeWeight: 6,   //선 두께
-            strokeStyle: 'longdash',
-            map: map           //오버레이할 지도
-        });
-        let marker = new naver.maps.Marker({
-            position: polylinePath[polylinePath.length-1],
-            map:map
-        });
-
-    },[polyLine]);
 
     useEffect(() => {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -147,7 +109,6 @@ export default function NaverMap() {
         });
 
 
-
         let polylinePath = [];
 
         let i;
@@ -219,7 +180,7 @@ export default function NaverMap() {
             >
                 <FindPath props = {selectLoc} setValue={setPolyLine}/>
 
-                <PostCourse />
+                <PostCourse selectLoc = {selectLoc} polyLine={polyLine}/>
 
                 <PostImage />
             </Box>
