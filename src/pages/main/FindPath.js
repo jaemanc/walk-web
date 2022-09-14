@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
-
 const FindPath = (props) => {
 
     const [selectLoc, setSelectLoc] = React.useState({
@@ -14,11 +13,9 @@ const FindPath = (props) => {
     })
 
     // polyline 좌표 기준 길 표시.
-
     const [polyLine, setPolyLine ] = React.useState([{
         x : '37.5176422',
         y : '126.8990036'
-
     }]);
 
     useEffect(()=>{
@@ -36,9 +33,6 @@ const FindPath = (props) => {
         let startStr = props.props.startY+','+props.props.startX;
         let goalStr = props.props.endY+','+props.props.endX;
 
-        console.log( '출발 요청값 : ', startStr);
-        console.log('도착 요청값 : ', goalStr);
-
         axios.get(`/walk/course/walk-path`
             ,{
                 params:{
@@ -47,10 +41,14 @@ const FindPath = (props) => {
                 }
             }
         ).then(response => {
+
+            console.log(response);
+
+
             if (response.status === 200) {
                 let py = '';
                 let px = '';
-                response.data.map((polyTemp) => {
+                response.data.coordinateValue.map((polyTemp) => {
                     let flag = false;
                     if (polyTemp.startsWith('1')) {
                         py = polyTemp;
@@ -62,14 +60,16 @@ const FindPath = (props) => {
                     if (flag) {
                         polyLine.push({
                             x: px,
-                            y: py
+                            y: py,
+                            time:response.data.time,
+                            distance: response.data.distance,
                         })
                     }
                 })
+
                 setPolyLine(polyLine);
 
                 props.setValue(polyLine);
-
 
             } else {
                 window.alert(' 검색 결과가 존재하지 않습니다. ');
