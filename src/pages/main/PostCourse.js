@@ -35,18 +35,21 @@ function PostCourse(props) {
             ...props.polyLine
         })
 
-        setCourseInfo({
-            ...courseInfo,
-            coordinates: {
-                destLatitude : props.selectLoc.endX,  //위도 - > 보통 37로 시작 ( 우리나라 )
-                destLongitude : props.selectLoc.endY,
-                startLatitude : props.selectLoc.startX,
-                startLongitude : props.selectLoc.startY,
-            },
-            time : Object.keys(props.polyLine) > 1 ?   props.polyLine[1].time : 0,
-            distance: Object.keys(props.polyLine) > 1 ? props.polyLine[1].distance : 0,
+        setCourseInfo((courseInfo) => {
+            return {
+                ...courseInfo,
+                coordinates: {
+                    destLatitude : props.selectLoc.endX,  //위도 - > 보통 37로 시작 ( 우리나라 )
+                    destLongitude : props.selectLoc.endY,
+                    startLatitude : props.selectLoc.startX,
+                    startLongitude : props.selectLoc.startY,
+                },
+                time : Object.keys(props.polyLine).length > 1 ? props.polyLine[1].time : 0,
+                distance: Object.keys(props.polyLine).length > 1 ? props.polyLine[1].distance : 0,
+            }
         })
-    },[props])
+
+    },[props.polyLine])
 
     const [postCourseModalisOpen, setPostCourseModalisOpen] = React.useState(false);
 
@@ -76,24 +79,15 @@ function PostCourse(props) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        if (courseInfo.time === 0 ) {
-            window.alert(' 경로를 찾은 이후에 등록해주십시오.');
-            setPostCourseModalisOpen(false);
-        }
-
         let transitRoute = '';
 
         for (let i=0; i < Object.keys(polyLine).length; i ++) {
-            transitRoute+=polyLine[i].x+','+polyLine[i].y
+            transitRoute+=polyLine[i].x+','+polyLine[i].y+','
         }
 
-        setCourseInfo((courseInfo) => {
-            return {
-                ...courseInfo
-            }
-        })
+        console.log(courseInfo);
 
-        console.log(courseInfo.time,' // ',courseInfo.distance);
+
 
         defaultAxios.post(`/walk/course`,
             {
@@ -106,8 +100,9 @@ function PostCourse(props) {
                     startLongitude : courseInfo.coordinates.startLongitude,
                     transitRoute : transitRoute,
                 },
-                time: courseInfo.time,
-                distance : courseInfo.distance,
+                time: props.polyLine[1].time,
+                distance : props.polyLine[1].distance,
+                userId : sessionStorage.getItem("id"),
             },
             {headers: {"Content-Type": `application/json`}})
             .then(response => {
