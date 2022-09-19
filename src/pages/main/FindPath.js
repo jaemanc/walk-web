@@ -20,18 +20,18 @@ const FindPath = (props) => {
 
     useEffect(()=>{
         setSelectLoc({
-            startX:props.props.startX,
-            startY:props.props.startY,
-            endX:props.props.endX,
-            endY:props.props.endY,
+            startX:props.selectLoc.startX,
+            startY:props.selectLoc.startY,
+            endX:props.selectLoc.endX,
+            endY:props.selectLoc.endY,
         })
     },[props])
 
     function onClick (e) {
         e.preventDefault();
 
-        let startStr = props.props.startY+','+props.props.startX;
-        let goalStr = props.props.endY+','+props.props.endX;
+        let startStr = props.selectLoc.startY+','+props.selectLoc.startX;
+        let goalStr = props.selectLoc.endY+','+props.selectLoc.endX;
 
         axios.get(`/walk/course/walk-path`
             ,{
@@ -41,6 +41,7 @@ const FindPath = (props) => {
                 }
             }
         ).then(response => {
+            props.clear(false);
 
             console.log(response);
 

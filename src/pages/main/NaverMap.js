@@ -23,8 +23,8 @@ export default function NaverMap() {
     const [selectLoc, setSelectLoc] = React.useState({
         startX:37.22222222,
         startY:126.1111111,
-        endX:37.4444444,
-        endY:126.3333333,
+        endX:37.57275,
+        endY:126.8990036,
     });
 
     // polyline 및 시간 거리 체크
@@ -35,10 +35,14 @@ export default function NaverMap() {
         distance : 0,
     }]);
 
+    const [clear, setClear] = useState(false);
+
     useEffect(() => {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
         navigator.geolocation.getCurrentPosition(function(position) {
             let crd = position.coords;
+
+            console.log(crd.latitude , ' // ' , crd.longitude);
             setCurrLoc({
                 x:crd.latitude,
                 y:crd.longitude
@@ -47,10 +51,16 @@ export default function NaverMap() {
 
         let mapDiv = document.getElementById('map');
 
+
+        console.log(currLoc.x ,' 다른가..? ', currLoc.y);
+        console.log(selectLoc.endX ,' 다른가..? ', selectLoc.endY);
+
         let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
             zoom: 14,
             position: 'releative'
         });
+        //selectLoc.endX!==37.4444444 ? selectLoc.endX: currLoc.x
+
 
         let mapOptions = {
             zoomControl: true,
@@ -97,13 +107,26 @@ export default function NaverMap() {
 
         naver.maps.Event.addListener(map, 'click', function(e){
 
+            let tx = e.coord.x;
+            let ty = e.coord.y;
+
             if (flag) {
+                console.log(e.coord , ' ?? ');
                 startSetter({...e.coord} );
                 startMarker.setPosition(e.coord);
 
             } else {
+                console.log(e.coord);
                 endSetter({...e.coord});
                 destMarker.setPosition(e.coord);
+
+                setCurrLoc((currLoc) => {
+                    return {
+                        x: ty,
+                        y: tx,
+                    }
+                })
+
             }
             flag = !flag;
         });
@@ -118,21 +141,27 @@ export default function NaverMap() {
         }
 
 
-        let polyline = new naver.maps.Polyline({
-            path: polylinePath,      //선 위치 변수배열
-            strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-            strokeOpacity: 0.8, //선 투명도 0 ~ 1
-            strokeWeight: 6,   //선 두께
-            map: map           //오버레이할 지도
-        });
+        if (!clear) {
+            let polyline = new naver.maps.Polyline({
+                path: polylinePath,      //선 위치 변수배열
+                strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
+                strokeOpacity: 0.8, //선 투명도 0 ~ 1
+                strokeWeight: 6,   //선 두께
+                map: map           //오버레이할 지도
+            });
 
-        let marker = new naver.maps.Marker({
-            position: polylinePath[polylinePath.length-1],
-            map:map
-        });
+            let sttMarker = new naver.maps.Marker({
+                position: polylinePath[1],
+                map:map
+            });
+            let dstMarker = new naver.maps.Marker({
+                position: polylinePath[polylinePath.length-1],
+                map:map
+            });
+        }
 
         // NaverMapScript(currLoc);
-    },[polyLine]);
+    },[polyLine, clear]);
 
     let propsVal = '';
 
@@ -178,11 +207,10 @@ export default function NaverMap() {
                     width:'7%'
                 }}
             >
-                <FindPath props = {selectLoc} setValue={setPolyLine}/>
+                <FindPath clear = {setClear} selectLoc = {selectLoc} setValue={setPolyLine}/>
 
-                <PostCourse selectLoc = {selectLoc} polyLine={polyLine}/>
+                <PostCourse clear = {setClear} selectLoc = {selectLoc} polyLine={polyLine}/>
 
-                <PostImage />
             </Box>
 
             <Box id="map" sx={{

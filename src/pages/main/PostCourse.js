@@ -76,11 +76,6 @@ function PostCourse(props) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        if (courseInfo.time === 0 ) {
-            window.alert(' 경로를 찾은 이후에 등록해주십시오.');
-            setPostCourseModalisOpen(false);
-        }
-
         let transitRoute = '';
 
         for (let i=0; i < Object.keys(polyLine).length; i ++) {
@@ -113,10 +108,8 @@ function PostCourse(props) {
             .then(response => {
                 window.alert('등록 되었습니다.');
                 setPostCourseModalisOpen(false);
-
-
-                // 초기화가 필요할듯..?
-
+                props.clear(true);
+                window.location.reload();
 
             }).catch(err => {
                 window.alert('서버 오류');
@@ -167,6 +160,8 @@ function PostCourse(props) {
                                 courseKeyword: e.target.value
                             }) }
                         />
+
+                        <Button > 사진 첨부 </Button>
 
                         <Button
                             type="submit"
