@@ -29,6 +29,24 @@ function PostCourse(props) {
         }
     });
 
+    const [imageSrc, setImageSrc] = useState('');
+
+    const encodeFileToBase64 = (fileBlob) => {
+
+        // 파일 경로 및 파일 이름.
+        console.log(fileBlob.target.value);
+        console.log(fileBlob.target.files[0].size);
+
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob.target.files[0]);
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setImageSrc(reader.result);
+                resolve();
+            };
+        });
+    };
+
     useEffect(()=>{
 
         setPolyLine({
@@ -107,6 +125,7 @@ function PostCourse(props) {
             {headers: {"Content-Type": `application/json`}})
             .then(response => {
                 window.alert('등록 되었습니다.');
+                setImageSrc('');
                 setPostCourseModalisOpen(false);
                 props.clear(true);
                 window.location.reload();
@@ -115,6 +134,36 @@ function PostCourse(props) {
                 window.alert('서버 오류');
                 console.log("error!!", err);
             });
+
+        if (imageSrc!=='') {
+            // 사진이 첨부 되었다면,
+            defaultAxios.post(`/walk/file`,
+                {
+                    courseName : courseInfo.courseName,
+                    courseKeyword : courseInfo.courseKeyword,
+                    coordinates : {
+                        destLatitude : courseInfo.coordinates.destLatitude,
+                        destLongitude : courseInfo.coordinates.destLongitude,
+                        startLatitude : courseInfo.coordinates.startLatitude,
+                        startLongitude : courseInfo.coordinates.startLongitude,
+                        transitRoute : transitRoute,
+                    },
+                    time: courseInfo.time,
+                    distance : courseInfo.distance,
+                },
+                {headers: {"Content-Type": `application/json`}})
+                .then(response => {
+                    window.alert('등록 되었습니다.');
+                    setImageSrc('');
+                    setPostCourseModalisOpen(false);
+                    props.clear(true);
+                    window.location.reload();
+
+                }).catch(err => {
+                window.alert('서버 오류');
+                console.log("error!!", err);
+            });
+        }
     }
 
     return (
@@ -140,6 +189,7 @@ function PostCourse(props) {
                             id="courseName"
                             label="코스 이름"
                             name="courseName"
+                            required={false}
                             value={courseInfo.courseName || ''}
                             onChange={e =>{
                                 setCourseInfo({
@@ -154,6 +204,7 @@ function PostCourse(props) {
                             id="courseKeyword"
                             label="키워드"
                             name="courseKeyword"
+                            required={false}
                             value={courseInfo.courseKeyword || ''}
                             onChange={e => setCourseInfo({
                                 ...courseInfo,
@@ -161,7 +212,19 @@ function PostCourse(props) {
                             }) }
                         />
 
-                        <Button > 사진 첨부 </Button>
+                        <Button
+                            type="file"
+                            sx={{mr:3}}
+                            color="primary"
+                            variant="contained"
+                            component="label"
+                        >
+                            사진 첨부
+                            <input hidden type="file" onChange={(e) =>{
+                                encodeFileToBase64(e);
+                                // encodeFileToBase64(e.target.files[0]);
+                            }}/>
+                        </Button>
 
                         <Button
                             type="submit"
@@ -175,6 +238,13 @@ function PostCourse(props) {
                             variant="contained"
                             onClick={closeModal}
                         >Cancel</Button>
+
+                        <Box
+                            sx={{mt:1}}
+                            className="preview">
+                            {imageSrc && <img width={250} height={250} src={imageSrc} alt="preview-img" />}
+                        </Box>
+
                     </Box>
                 </Modal>
 
