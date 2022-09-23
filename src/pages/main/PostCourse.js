@@ -29,7 +29,19 @@ function PostCourse(props) {
         }
     });
 
-    const [imageSrc, setImageSrc] = useState('');
+    const [imageSrc, setImageSrc] = useState(null);
+
+    const [fileInfo, setFileInfo] = useState({
+        fileSize : '',
+        fileLoc : '',
+        userId : '',
+        fileLatitude : '',
+        fileLongitude : '',
+        coordinatesId : '',
+        courseId : '',
+        file : null,
+    });
+
 
     const encodeFileToBase64 = (fileBlob) => {
 
@@ -39,12 +51,28 @@ function PostCourse(props) {
 
         const reader = new FileReader();
         reader.readAsDataURL(fileBlob.target.files[0]);
+
+        setFileInfo({
+            file:fileBlob.target.files[0]
+        })
+
+        setFileInfo((fileInfo) => {
+            return {
+                ...fileInfo,
+                fileLatitude: courseInfo.coordinates.startLatitude,
+                fileLongitude: courseInfo.coordinates.startLongitude,
+                fileSize: fileBlob.target.files[0].size,
+                fileLoc: fileBlob.target.value,
+            }
+        })
+
         return new Promise((resolve) => {
             reader.onload = () => {
                 setImageSrc(reader.result);
                 resolve();
             };
         });
+
     };
 
     useEffect(()=>{
@@ -105,8 +133,6 @@ function PostCourse(props) {
 
         console.log(courseInfo);
 
-
-
         defaultAxios.post(`/walk/course`,
             {
                 courseName : courseInfo.courseName,
@@ -122,48 +148,57 @@ function PostCourse(props) {
                 distance : props.polyLine[1].distance,
                 userId : sessionStorage.getItem("id"),
             },
-            {headers: {"Content-Type": `application/json`}})
+            {headers: {'content-type': `application/json`}})
             .then(response => {
-                window.alert('등록 되었습니다.');
-                setImageSrc('');
-                setPostCourseModalisOpen(false);
-                props.clear(true);
-                window.location.reload();
+                console.log("complete..!", response);
+
+                // 사진 첨부.
+                if (imageSrc!=='') {
+                    let formData = require(`form-data`);
+
+                    console.log('응애!' , fileInfo.file);
+
+
+
+                    let fileSize;
+                    let fileLoc = fileInfo.fileLoc;
+                    let fileLatitude = fileInfo.fileLatitude;
+                    let fileLongitude = fileInfo.fileLongitude;
+                    let coordinatedId = response.data.coordinates_id;
+                    let userId = window.sessionStorage.getItem("id");
+                    let courseId;
+                    // 있음.. console.log(' 설마 파일이 없나..? ' , imageSrc);
+
+                    defaultAxios.post(`/walk/file`,
+                        {
+                            file:fileInfo.file,
+                            fileSize: fileInfo.fileSize,
+                            fileLoc: fileInfo.fileLoc,
+                            fileLatitude: fileInfo.fileLatitude,
+                            fileLongitude: fileInfo.fileLongitude,
+                            coordinatedId: response.data.coordinates_id,
+                            userId: window.sessionStorage.getItem("id"),
+                            courseId: response.data.courseId
+                        },
+                        {headers: {'Content-Type': 'multipart/form-data'}})
+                        .then(response => {
+                            window.alert('등록 되었습니다.');
+                            setImageSrc('');
+                            setPostCourseModalisOpen(false);
+                            props.clear(true);
+                            window.location.reload();
+
+                        }).catch(err => {
+                        window.alert('서버 오류');
+                        console.log("error!!", err);
+                    });
+                }
 
             }).catch(err => {
                 window.alert('서버 오류');
                 console.log("error!!", err);
             });
 
-        if (imageSrc!=='') {
-            // 사진이 첨부 되었다면,
-            defaultAxios.post(`/walk/file`,
-                {
-                    courseName : courseInfo.courseName,
-                    courseKeyword : courseInfo.courseKeyword,
-                    coordinates : {
-                        destLatitude : courseInfo.coordinates.destLatitude,
-                        destLongitude : courseInfo.coordinates.destLongitude,
-                        startLatitude : courseInfo.coordinates.startLatitude,
-                        startLongitude : courseInfo.coordinates.startLongitude,
-                        transitRoute : transitRoute,
-                    },
-                    time: courseInfo.time,
-                    distance : courseInfo.distance,
-                },
-                {headers: {"Content-Type": `application/json`}})
-                .then(response => {
-                    window.alert('등록 되었습니다.');
-                    setImageSrc('');
-                    setPostCourseModalisOpen(false);
-                    props.clear(true);
-                    window.location.reload();
-
-                }).catch(err => {
-                window.alert('서버 오류');
-                console.log("error!!", err);
-            });
-        }
     }
 
     return (

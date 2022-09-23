@@ -41,8 +41,6 @@ export default function NaverMap() {
         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
         navigator.geolocation.getCurrentPosition(function(position) {
             let crd = position.coords;
-
-            console.log(crd.latitude , ' // ' , crd.longitude);
             setCurrLoc({
                 x:crd.latitude,
                 y:crd.longitude
@@ -50,10 +48,6 @@ export default function NaverMap() {
         });
 
         let mapDiv = document.getElementById('map');
-
-
-        console.log(currLoc.x ,' 다른가..? ', currLoc.y);
-        console.log(selectLoc.endX ,' 다른가..? ', selectLoc.endY);
 
         let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
             zoom: 14,
