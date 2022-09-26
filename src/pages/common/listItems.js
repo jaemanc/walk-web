@@ -20,7 +20,14 @@ export const mainListItems = (
       <ListItemText primary="Main" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/user">
+      <ListItemButton component={Link} to="/course">
+          <ListItemIcon>
+              <AltRoute />
+          </ListItemIcon>
+          <ListItemText primary="Course" />
+      </ListItemButton>
+
+      <ListItemButton component={Link} to="/user">
       <ListItemIcon>
         <Person />
       </ListItemIcon>
@@ -34,12 +41,6 @@ export const mainListItems = (
       <ListItemText primary="Board" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/course">
-      <ListItemIcon>
-        <AltRoute />
-      </ListItemIcon>
-      <ListItemText primary="Course" />
-    </ListItemButton>
 
     <ListItemButton>
       <ListItemIcon>

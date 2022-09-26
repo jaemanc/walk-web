@@ -150,25 +150,8 @@ function PostCourse(props) {
             },
             {headers: {'content-type': `application/json`}})
             .then(response => {
-                console.log("complete..!", response);
-
                 // 사진 첨부.
                 if (imageSrc!=='') {
-                    let formData = require(`form-data`);
-
-                    console.log('응애!' , fileInfo.file);
-
-
-
-                    let fileSize;
-                    let fileLoc = fileInfo.fileLoc;
-                    let fileLatitude = fileInfo.fileLatitude;
-                    let fileLongitude = fileInfo.fileLongitude;
-                    let coordinatedId = response.data.coordinates_id;
-                    let userId = window.sessionStorage.getItem("id");
-                    let courseId;
-                    // 있음.. console.log(' 설마 파일이 없나..? ' , imageSrc);
-
                     defaultAxios.post(`/walk/file`,
                         {
                             file:fileInfo.file,

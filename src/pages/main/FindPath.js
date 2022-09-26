@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import Loading from "../common/Loading";
 
 const FindPath = (props) => {
 
@@ -12,6 +13,7 @@ const FindPath = (props) => {
         endY:126.777777,
     })
 
+    const [loading, setLoading] = useState(false);
     // polyline 좌표 기준 길 표시.
     const [polyLine, setPolyLine ] = React.useState([{
         x : '37.5176422',
@@ -28,6 +30,7 @@ const FindPath = (props) => {
     },[props])
 
     function onClick (e) {
+        setLoading(true);
         e.preventDefault();
 
         let startStr = props.selectLoc.startY+','+props.selectLoc.startX;
@@ -42,10 +45,7 @@ const FindPath = (props) => {
             }
         ).then(response => {
             props.clear(false);
-
             console.log(response);
-
-
             if (response.status === 200) {
                 let py = '';
                 let px = '';
@@ -71,10 +71,13 @@ const FindPath = (props) => {
                 setPolyLine(polyLine);
 
                 props.setValue(polyLine);
+                setLoading(false);
+
 
             } else {
                 window.alert(' 검색 결과가 존재하지 않습니다. ');
                 console.log(' 검색 결과가 존재하지 않습니다. ');
+                setLoading(false);
             }
         }).catch(err => {
             console.log("error!!", err);
@@ -84,11 +87,13 @@ const FindPath = (props) => {
     return (
 
         <Box>
+            <Loading props={loading}/>
             <Button
                 onClick={onClick}
                 sx={{
                     mb:2,
                     width:'100%',
+                    display: loading ? "none" : "block"
                 }}
                 size="small" variant="contained"
             > 길 찾기</Button>

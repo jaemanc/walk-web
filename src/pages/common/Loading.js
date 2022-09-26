@@ -6,7 +6,10 @@ function Loading (props) {
 
     return (
         <Box
-            sx={{ display: props.props ? 'block' : 'none' }}
+            sx={{
+                ml:2,
+                display: props.props ? 'block' : 'none'
+        }}
         >
             <TailSpin
                 height = "50"

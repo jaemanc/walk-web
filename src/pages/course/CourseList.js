@@ -1,143 +1,178 @@
-import React, {useState} from 'react';
-import Snackbar from "@mui/material/Snackbar";
+import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { InputAdornment, SvgIcon, TextField, Typography} from "@mui/material";
+import {
+    Avatar,
+    InputAdornment,
+    SvgIcon,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    TextField,
+    Typography
+} from "@mui/material";
 import Search from "@mui/icons-material/Search";
 import Loading from "../common/Loading";
 import axios from "axios";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import {Link} from "react-router-dom";
+import TablePagination from "@mui/material/TablePagination";
 
-const CourseList = () => {
+const CourseList = (props) => {
 
-    const [search, setSearch] = useState("");
-    const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [course, setCourse] = useState(false);
-    let jwt = sessionStorage.getItem("jwt");
-
-    const handleClick = () => {
-        setOpen(true);
-    }
-
-    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    }
-
-    function searchCourse (e) {
-        e.preventDefault();
-        setLoading(true);
-        let page = 0;
-        let limit = 0;
-
-        axios.get( `/walk/course/search`, {
-            params:{
-                keyword: search.value,
-                page: page,
-                size: 0,
-            },
-            headers: {
-                "Authorization": `${jwt}`
-            }})
-            .then(response => {
-                console.log(` response data >>> ` , response);
-                setLoading(false);
-                if (response.status === 200) {
-                    setCourse(
-                        response.data
-                    );
-                } else {
-                    // 그거 그 스낵바로 처리 합시다.
-                    console.log(' 검색 결과가 존재하지 않습니다. ');
-
-                }
-        }).catch(err => {
-            console.log(" error!! ", err);
-        });
-    }
-
-    const action = (
-        <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClick}>
-            </Button>
-            <VisibilityIcon
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            />
-        </React.Fragment>
+    const [course, setCourse] = useState(
+        [{
+            coordinates :'',
+            coordinates_id:'',
+            courseId:'',
+            courseKeyword:'',
+            courseName:'',
+            fileId:'',
+            isDeleted:'',
+            updater:'',
+            updatedAt:'',
+            user:'',
+            userId:''
+        }]
     );
+
+    const [selecCourseId, setSelecCourseId] = React.useState(0);
+
+    useEffect(() => {
+        if (selecCourseId!==0) {
+            document.getElementById(selecCourseId).setAttribute('style','background: #2596be');
+            document.getElementById(selecCourseId).setAttribute('style','height: 200px');
+
+        }
+    },[selecCourseId]);
+
+    useEffect(()=>{
+        setCourse(props.courseList);
+
+        console.log('호방하다',course);
+
+    },[props.courseList]);
 
     return (
         <Box sx={{
             width: 1,
-            mt: 10,
+            mt: 2,
             ml: 3,
         }}>
+            <PerfectScrollbar>
+                <Box sx={{minWidth: 1230}}>
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{
+                                ml:1
+                            }}>
+                                <TableCell>
+                                    course
+                                </TableCell>
+                                <TableCell>
+                                    preview
+                                </TableCell>
+                                <TableCell>
+                                    Name
+                                </TableCell>
+                                <TableCell>
+                                    DDaBong
+                                </TableCell>
+                                <TableCell>
+                                    user
+                                </TableCell>
+                                <TableCell>
+                                    Date
+                                </TableCell>
 
-            <Button onClick={handleClick}> 열려라 참깨 </Button>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                 message = "테스트 합니당"
-                action={action}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {/* { board.slice(0, limit).map((board) => (*/}
+                            { course.map((course) => (
+                                <TableRow
+                                    hover
+                                    id={course.courseId}
+                                    key={course.courseId}
+                                    onClick={(e) => {
+                                        if (document.getElementById(selecCourseId) !== null) {
+                                            document.getElementById(selecCourseId).setAttribute('style','background: white');
+                                        }
+                                        setSelecCourseId((courseId) => {
+                                            return course.courseId
+                                        })
+                                    }}
+                                >
+                                    <TableCell padding="checkbox"
+                                               sx={{width:"7%", alignItems:"center"}}
+                                    >
+                                        {course.courseName}
+                                    </TableCell>
+
+                                    {/*  미리보기 이미지 호출 필요. */}
+                                    <TableCell
+                                        sx={{width:"7%"}}
+                                    >
+                                        <Box
+                                            sx={{
+                                                alignItems: 'center',
+                                                display: 'flex'
+                                            }}
+                                        >
+                                            <Link to={`/walk/file/${course.courseId}`}>
+                                                <Avatar
+                                                    sx={{ mr: 2 }}
+                                                >
+                                                    {course.courseKeyword}
+                                                </Avatar>
+                                            </Link>
+                                        </Box>
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{width:"15%", alignItems:"center"}}
+                                    >
+                                        <Link to={`/post/${course.courseId}`}>
+                                            {course.courseName}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{width:"10%", alignItems:"center"}}
+                                    >
+                                        <Link to={`/post/${course.courseId}`}>
+                                            {course.courseName}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{width:"5%", alignItems:"center"}}
+                                    >
+                                        <Link to={`/post/${course.courseId}`}>
+                                            {course.courseName}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell
+                                        sx={{width:"10%", alignItems:"center"}}
+                                    >
+                                        <Link to={`/post/${course.courseId}`}>
+                                            날짜..?
+                                        </Link>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Box>
+            </PerfectScrollbar>
+            <TablePagination
+                component="div"
+                // count={10}
+                // onPageChange={handlePageChange}
+                // onRowsPerPageChange={handleLimitChange}
+                // page={page}
+                // rowsPerPage={limit}
+                rowsPerPageOptions={[5, 10, 25]}
             />
-            <Typography
-                sx={{ m: 1 }}
-                variant="h4"
-            >
-                Course
-            </Typography>
-
-            <Box sx={{
-                alignItems: 'center',
-                display: 'flex',
-                flexWrap: 'wrap',
-                mr:1
-                ,ml: 1
-            }}>
-                <TextField sx={{width:"60%"}}
-                           InputProps={{
-                               startAdornment: (
-                                   <InputAdornment position="start">
-                                       <SvgIcon
-                                           color="action"
-                                           fontSize="small"
-                                       >
-                                           <Search />
-                                       </SvgIcon>
-                                   </InputAdornment>
-                               )
-                           }}
-                           placeholder="Search keywords"
-                           variant="outlined"
-                           onChange={e => setSearch({
-                               value : e.target.value
-                           })}
-                />
-                <Loading props={loading}/>
-                <Button
-                    sx={{
-                        ml:5,
-                        display: loading ? "none" : "block"
-                    }}
-                    color="primary"
-                    variant="contained"
-                    onClick={searchCourse}
-                >
-                    Search </Button>
-            </Box>
-
-
-
-
-
-
 
 
 

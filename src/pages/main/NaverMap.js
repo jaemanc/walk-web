@@ -50,7 +50,7 @@ export default function NaverMap() {
         let mapDiv = document.getElementById('map');
 
         let map = new window.naver.maps.Map(mapDiv,{center: new naver.maps.LatLng(currLoc.x, currLoc.y),
-            zoom: 14,
+            zoom: 16,
             position: 'releative'
         });
         //selectLoc.endX!==37.4444444 ? selectLoc.endX: currLoc.x
