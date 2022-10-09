@@ -152,6 +152,7 @@ function PostCourse(props) {
             .then(response => {
                 // 사진 첨부.
                 if (imageSrc!=='') {
+
                     defaultAxios.post(`/walk/file`,
                         {
                             file:fileInfo.file,

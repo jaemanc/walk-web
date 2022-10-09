@@ -1,9 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
-import NaverMapScript from "./NaverMapScript";
 import Box from "@mui/material/Box";
 import FindPath from "./FindPath";
 import PostCourse from "./PostCourse";
-import PostImage from "./PostImage";
 import Paper from "@mui/material/Paper";
 import startImage from "../../assets/images/logout_16.png";
 import arrvImage from "../../assets/images/login_16.png";

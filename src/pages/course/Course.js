@@ -25,10 +25,11 @@ const Course = () => {
             courseName:'',
             fileId:'',
             isDeleted:'',
-            updater:'',
+            userName:'',
             updatedAt:'',
             user:'',
-            userId:''
+            userId:'',
+            filePath:''
         }]
     );
 

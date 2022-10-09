@@ -135,7 +135,6 @@ const BoardList = () => {
     }
 
     const handleLimitChange = (event) => {
-        console.log(' event.target.value : ' , event.target.value);
         setLimit(event.target.value);
     };
 
