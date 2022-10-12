@@ -30,7 +30,10 @@ const CourseList = (props) => {
             updatedAt:'',
             user:'',
             userId:'',
-            filePath:''
+            filePath:'',
+            requiredTime:'',
+            transitRoute:'',
+            distance:''
         }]
     );
     const [selecCourseId, setSelecCourseId] = React.useState(0);
@@ -63,115 +66,108 @@ const CourseList = (props) => {
         const [detailView, setDetailView] = React.useState(false);
         return (
             <React.Fragment>
-                    <TableRow
-                        hover
-                        id={props.course.courseId}
-                        key={props.course.courseId}
-                        onClick={(e) => {
-                            if (document.getElementById(selecCourseId) !== null) {
-                                document.getElementById(selecCourseId).setAttribute('style','background: white');
-                            }
-                            setSelecCourseId((courseId) => {
-                                return props.course.courseId
-                            })
-                            setDetailView(!detailView)
-                        }}
-                    >
-                         {/*course*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"7%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"center"
+                <Table>
+                    <TableBody>
+                        <TableRow
+                            hover
+                            id={props.course.courseId}
+                            key={props.course.courseId}
+                            onClick={(e) => {
+                                if (document.getElementById(selecCourseId) !== null) {
+                                    document.getElementById(selecCourseId).setAttribute('style','background: white');
+                                }
+                                setSelecCourseId((courseId) => {
+                                    return props.course.courseId
+                                })
+                                setDetailView(!detailView)
                             }}
                         >
-                            {props.course.courseName}
-                        </TableCell>
+                             {/*course*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                            >
+                                {props.course.courseName}
+                            </TableCell>
 
-                         {/*preview  미리보기용 S3 이미지 호출*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"7%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"center"
-                            }}
-                        >
-                            <img align="center"
-                                 width={60}
-                                 height={60}
-                                 src={props.course.filePath}/>
-                        </TableCell>
+                             {/*preview  미리보기용 S3 이미지 호출*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                            >
+                                <img align="center"
+                                     width={60}
+                                     height={60}
+                                     src={props.course.filePath}/>
+                            </TableCell>
 
-                         {/*Name*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"13%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"top"
-                            }}
-                            onClick={() => setDetailView(!detailView)}
-                        >
+                             {/*Name*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                                onClick={() => setDetailView(!detailView)}
+                            >
 
-                            {props.course.courseName}
-                        </TableCell>
+                                {props.course.courseName}
+                            </TableCell>
 
-                         {/*keyword*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"10%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"center"
-                            }}
-                        >
-                            {props.course.courseKeyword}
-                        </TableCell>
+                             {/*keyword*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                            >
+                                {props.course.courseKeyword}
+                            </TableCell>
 
-                         {/*userName*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"5%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"center"
-                            }}
-                        >
-                            {props.course.userName}
-                        </TableCell>
+                             {/*userName*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                            >
+                                {props.course.userName}
+                            </TableCell>
 
-                         {/*Date*/}
-                        <TableCell
-                            align="center"
-                            sx={{
-                                width:"10%"
-                                ,alignItems:"center"
-                                ,verticalAlign:"center"
-                            }}
-                        >
-                            {props.course.updatedAt}
-                        </TableCell>
-
-
-                        {/* css가 문제네.. */}
-                        <TableCell
-                            sx={{
-                                width:"100%"
-                            }}
-                        >
-                            <Collapse in={detailView} timeout="auto" unmountOnExit>
-                                {/* 좌표 데이터로 지도 데이터 설정. */}
-                                <CourseDetail coordinatesId={props.course.coordinates_id} />
-                            </Collapse>
-                        </TableCell>
-
-
-
-
-                    </TableRow>
-            </React.Fragment>
+                             {/*Date*/}
+                            <TableCell
+                                align="center"
+                                sx={{
+                                    width:"6%"
+                                    ,alignItems:"center"
+                                    ,verticalAlign:"center"
+                                }}
+                            >
+                                {props.course.updatedAt}
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+                <Collapse in={detailView} timeout="auto" unmountOnExit>
+                    {/* 좌표 데이터로 지도 데이터 설정. */}
+                    <CourseDetail
+                        coordinatesId={props.course.coordinates_id}
+                    />
+                </Collapse>
+    </React.Fragment>
         );
     }
 
@@ -190,33 +186,58 @@ const CourseList = (props) => {
                                     ml:1,
                                     alignItems:"center"
                                 }}>
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                               sx={{
+                                                   width:"6%"
+                                                   ,alignItems:"center"
+                                                   ,verticalAlign:"center"
+                                               }}>
                                         course
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                               sx={{
+                                                   width:"6%"
+                                                   ,alignItems:"center"
+                                                   ,verticalAlign:"center"
+                                               }}>
                                         preview
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center"
+                                               sx={{
+                                                   width:"6%"
+                                                   ,alignItems:"center"
+                                                   ,verticalAlign:"center"
+                                               }}>
                                         Name
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center"sx={{
+                                        width:"6%"
+                                        ,alignItems:"center"
+                                        ,verticalAlign:"center"
+                                    }}>
                                         Keyword
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center"sx={{
+                                        width:"6%"
+                                        ,alignItems:"center"
+                                        ,verticalAlign:"center"
+                                    }}>
                                         user
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center"sx={{
+                                        width:"6%"
+                                        ,alignItems:"center"
+                                        ,verticalAlign:"center"
+                                    }}>
                                         Date
                                     </TableCell>
 
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {course.map((course) => (
-                                    <DetailRow course={course} key={course.courseId}/>
-                                ))}
-                           </TableBody>
                         </Table>
+                            {course.map((course) => (
+                                <DetailRow course={course} key={course.courseId}/>
+                            ))}
                     </TableContainer>
                 </Box>
             </PerfectScrollbar>

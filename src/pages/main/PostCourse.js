@@ -9,8 +9,10 @@ function PostCourse(props) {
 
     // polyline 및 시간 거리 체크
     const [polyLine, setPolyLine ] = useState([{
-        x : 37.5176422,
-        y : 126.8990036,
+        /*x : 37.5176422,
+        y : 126.8990036,*/
+        x : '',
+        y : '',
         time: 0,
         distance : 0,
     }]);
@@ -128,7 +130,7 @@ function PostCourse(props) {
         let transitRoute = '';
 
         for (let i=0; i < Object.keys(polyLine).length; i ++) {
-            transitRoute+=polyLine[i].x+','+polyLine[i].y+','
+            transitRoute+=polyLine[i].y+','+polyLine[i].x+','
         }
 
         console.log(courseInfo);
@@ -270,15 +272,24 @@ function PostCourse(props) {
             </Box>
 
 
-            <Button
-                sx={{
-                    mb:2,
-                    width:'100%'
-                }}
-                size="small"
-                variant="contained"
-                onClick={postCourse}
-            >경로등록</Button>
+            <Box position="absolute"
+                 sx={{
+                     ml:0,
+                     mt:6,
+                     zIndex:2
+                 }}
+            >
+                <Button
+                    sx={{
+                        mb:2,
+                        width:'100%'
+
+                    }}
+                    size="large"
+                    variant="contained"
+                    onClick={postCourse}
+                >경로등록</Button>
+            </Box>
         </Box>
     );
 }

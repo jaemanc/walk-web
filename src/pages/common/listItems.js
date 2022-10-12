@@ -41,12 +41,11 @@ export const mainListItems = (
       <ListItemText primary="Board" />
     </ListItemButton>
 
-
     <ListItemButton>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Recommend Course" />
     </ListItemButton>
 
   </React.Fragment>

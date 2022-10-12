@@ -36,8 +36,6 @@ const CourseSearch = (props) => {
 
     function searchCourse () {
         setLoading(true);
-        console.log(``);
-
         axios.get( `/walk/course/search`, {
             params:{
                 page: searchKey.page,
@@ -52,7 +50,6 @@ const CourseSearch = (props) => {
                 "Authorization": `${jwt}`
             }})
             .then(response => {
-                console.log(` response data >>> ` , response);
                 setLoading(false);
                 if (response.status === 200) {
                     props.setCourse(response.data);
