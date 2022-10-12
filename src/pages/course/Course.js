@@ -19,7 +19,7 @@ const Course = () => {
     const [course, setCourse] = useState(
         [{
             coordinates :'',
-            coordinates_id:'',
+            coordinates_id:0,
             courseId:'',
             courseKeyword:'',
             courseName:'',
@@ -29,7 +29,7 @@ const Course = () => {
             updatedAt:'',
             user:'',
             userId:'',
-            filePath:''
+            filePath:'',
         }]
     );
 

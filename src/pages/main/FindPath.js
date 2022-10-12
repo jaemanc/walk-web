@@ -16,8 +16,10 @@ const FindPath = (props) => {
     const [loading, setLoading] = useState(false);
     // polyline 좌표 기준 길 표시.
     const [polyLine, setPolyLine ] = React.useState([{
-        x : '37.5176422',
-        y : '126.8990036'
+        /*x : '37.5176422',
+        y : '126.8990036'*/
+        x : '',
+        y : ''
     }]);
 
     useEffect(()=>{
@@ -50,6 +52,10 @@ const FindPath = (props) => {
                 let py = '';
                 let px = '';
                 response.data.coordinateValue.map((polyTemp) => {
+
+                    console.log('#1',polyTemp);
+
+
                     let flag = false;
                     if (polyTemp.startsWith('1')) {
                         py = polyTemp;
@@ -73,6 +79,10 @@ const FindPath = (props) => {
                 props.setValue(polyLine);
                 setLoading(false);
 
+                props.setInfo({
+                    requiredTime:response.data.time,
+                    distance:response.data.distance,
+                });
 
             } else {
                 window.alert(' 검색 결과가 존재하지 않습니다. ');
@@ -86,7 +96,12 @@ const FindPath = (props) => {
 
     return (
 
-        <Box>
+        <Box position="absolute"
+            sx={{
+                ml:0,
+                zIndex:2
+            }}
+        >
             <Loading props={loading}/>
             <Button
                 onClick={onClick}
@@ -95,7 +110,7 @@ const FindPath = (props) => {
                     width:'100%',
                     display: loading ? "none" : "block"
                 }}
-                size="small" variant="contained"
+                size="large" variant="contained"
             > 길 찾기</Button>
 
         </Box>

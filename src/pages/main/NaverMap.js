@@ -18,6 +18,11 @@ export default function NaverMap() {
         y:126.8990036
     });
 
+    const [info, setInfo] = React.useState({
+        requiredTime:1990,
+        distance:100,
+    });
+
     const [selectLoc, setSelectLoc] = React.useState({
         startX:37.22222222,
         startY:126.1111111,
@@ -27,8 +32,10 @@ export default function NaverMap() {
 
     // polyline 및 시간 거리 체크
     const [polyLine, setPolyLine ] = useState([{
-        x : 37.5176422,
-        y : 126.8990036,
+        /*x : 37.5176422,
+        y : 126.8990036,*/
+        x : '',
+        y : '',
         time: 0,
         distance : 0,
     }]);
@@ -150,16 +157,31 @@ export default function NaverMap() {
                 position: polylinePath[polylinePath.length-1],
                 map:map
             });
+
+            let contentString = [
+                '<div class="iw_inner">',
+                'Distance : ' , info.distance, <br />,
+                'Time(Min) : ',
+                '</div>'
+            ].join('');
+
+            naver.maps.Event.addListener(dstMarker, "click", function(e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, dstMarker);
+                }
+            });
+
+            let infowindow = new naver.maps.InfoWindow({
+                content: contentString
+            });
         }
 
-        // NaverMapScript(currLoc);
     },[polyLine, clear]);
-
-    let propsVal = '';
 
     useEffect(()=>{
     },[selectLoc]);
-
 
     // 비동기로 값이 셋팅되는 상황 때문에 아래와 같이 처리
     function startSetter (props) {
@@ -191,27 +213,22 @@ export default function NaverMap() {
                    width: 1,
                }}
         >
+            <Box sx={{display:'flex'}}>
+                <Box
+                    sx={{
+                    }}
+                >
+                    <FindPath clear = {setClear} selectLoc = {selectLoc} setValue={setPolyLine} setInfo={setInfo}/>
+                    <PostCourse clear = {setClear} selectLoc = {selectLoc} polyLine={polyLine}/>
 
-        <Box sx={{display:'flex'}}>
-            <Box
-                sx={{
-                    mr:2,
-                    width:'7%'
-                }}
-            >
-                <FindPath clear = {setClear} selectLoc = {selectLoc} setValue={setPolyLine}/>
-
-                <PostCourse clear = {setClear} selectLoc = {selectLoc} polyLine={polyLine}/>
+                </Box>
+                <Box id="map" sx={{
+                    zIndex: 1,
+                    width: '100%',
+                    height: '80vh'
+                }}/>
 
             </Box>
-
-            <Box id="map" sx={{
-                zIndex: 1,
-                width: '93%',
-                height: '80vh'
-            }}/>
-
-        </Box>
         </Paper>
 
     );
