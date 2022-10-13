@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Modal from "react-modal";
 import TextField from "@mui/material/TextField";
 import defaultAxios from "axios";
+import Paper from "@mui/material/Paper";
 
 function PostCourse(props) {
 
@@ -31,49 +32,31 @@ function PostCourse(props) {
         }
     });
 
-    const [imageSrc, setImageSrc] = useState(null);
+    const [imageSrc, setImageSrc] = useState([]);
 
-    const [fileInfo, setFileInfo] = useState({
-        fileSize : '',
-        fileLoc : '',
-        userId : '',
-        fileLatitude : '',
-        fileLongitude : '',
-        coordinatesId : '',
-        courseId : '',
-        file : null,
-    });
+    const [fileInfo, setFileInfo] = useState([]);
 
 
     const encodeFileToBase64 = (fileBlob) => {
 
-        // 파일 경로 및 파일 이름.
-        console.log(fileBlob.target.value);
-        console.log(fileBlob.target.files[0].size);
+        const imageLists = fileBlob.target.files;
+        const selectedImageURLList = [...imageSrc];
 
-        const reader = new FileReader();
-        reader.readAsDataURL(fileBlob.target.files[0]);
+        for (let i = 0; i < imageLists.length; i+=1) {
+            const currentImageUrl = URL.createObjectURL(imageLists[i]);
 
-        setFileInfo({
-            file:fileBlob.target.files[0]
-        })
+            selectedImageURLList.push(currentImageUrl);
+            fileInfo.push({
+                    fileInfo,
+                    file: imageLists[i],
+                    fileLatitude: courseInfo.coordinates.startLatitude,
+                    fileLongitude: courseInfo.coordinates.startLongitude,
+                    fileSize: imageLists[i].size,
+                    fileLoc: '',
+                })
+        }
 
-        setFileInfo((fileInfo) => {
-            return {
-                ...fileInfo,
-                fileLatitude: courseInfo.coordinates.startLatitude,
-                fileLongitude: courseInfo.coordinates.startLongitude,
-                fileSize: fileBlob.target.files[0].size,
-                fileLoc: fileBlob.target.value,
-            }
-        })
-
-        return new Promise((resolve) => {
-            reader.onload = () => {
-                setImageSrc(reader.result);
-                resolve();
-            };
-        });
+        setImageSrc(selectedImageURLList);
 
     };
 
@@ -103,10 +86,11 @@ function PostCourse(props) {
 
     const customStyles = {
         content: {
-            top: '30%',
-            left: '35%',
+            top: '10%',
+            left: '30%',
             right: 'auto',
             bottom: 'auto',
+            width:'45%',
         },
         overlay: {
             zIndex: 1,
@@ -152,33 +136,44 @@ function PostCourse(props) {
             },
             {headers: {'content-type': `application/json`}})
             .then(response => {
+
+                console.log('여기 안와요..?' , imageSrc);
                 // 사진 첨부.
+
                 if (imageSrc!=='') {
+                    console.log('여기 안와요..?2 ' , imageSrc , imageSrc.length);
 
-                    defaultAxios.post(`/walk/file`,
-                        {
-                            file:fileInfo.file,
-                            fileSize: fileInfo.fileSize,
-                            fileLoc: fileInfo.fileLoc,
-                            fileLatitude: fileInfo.fileLatitude,
-                            fileLongitude: fileInfo.fileLongitude,
-                            coordinatedId: response.data.coordinates_id,
-                            userId: window.sessionStorage.getItem("id"),
-                            courseId: response.data.courseId
-                        },
-                        {headers: {'Content-Type': 'multipart/form-data'}})
-                        .then(response => {
-                            window.alert('등록 되었습니다.');
-                            setImageSrc('');
-                            setPostCourseModalisOpen(false);
-                            props.clear(true);
-                            window.location.reload();
+                    for (let i=0; i < imageSrc.length; i ++) {
 
-                        }).catch(err => {
-                        window.alert('서버 오류');
-                        console.log("error!!", err);
-                    });
+                        console.log(fileInfo[i].file , i , ' 번째 파일 등록합니다. ');
+
+                        defaultAxios.post(`/walk/file`,
+                            {
+                                file:fileInfo[i].file,
+                                fileSize: fileInfo[i].fileSize,
+                                fileLoc: fileInfo[i].fileLoc,
+                                fileLatitude: fileInfo[i].fileLatitude,
+                                fileLongitude: fileInfo[i].fileLongitude,
+                                coordinatedId: response.data.coordinates_id,
+                                userId: window.sessionStorage.getItem("id"),
+                                courseId: response.data.courseId
+                            },
+                            {headers: {'Content-Type': 'multipart/form-data'}})
+                            .then(response => {
+                                console.log(response);
+                                props.clear(true);
+
+                            }).catch(err => {
+                            window.alert('서버 오류');
+                            console.log("error!!", err);
+                        });
+                    }
                 }
+
+                window.alert('등록 되었습니다.');
+                window.location.reload();
+                setImageSrc('');
+                setPostCourseModalisOpen(false);
 
             }).catch(err => {
                 window.alert('서버 오류');
@@ -241,9 +236,10 @@ function PostCourse(props) {
                             component="label"
                         >
                             사진 첨부
-                            <input hidden type="file" onChange={(e) =>{
+                            <input hidden type="file" multiple onChange={(e) =>{
                                 encodeFileToBase64(e);
                                 // encodeFileToBase64(e.target.files[0]);
+                                // addImage(e);
                             }}/>
                         </Button>
 
@@ -260,11 +256,22 @@ function PostCourse(props) {
                             onClick={closeModal}
                         >Cancel</Button>
 
-                        <Box
+                        <Paper
+                            sx={{
+                                mt:3,
+                            }}
+                            display="flex">
+                            {imageSrc.length > 0 ?
+                            imageSrc.map((image) => (
+                                   <img src={image} width={100} height={100} key={image}/>
+                            )) : null}
+                        </Paper>
+
+                        {/*<Box
                             sx={{mt:1}}
                             className="preview">
                             {imageSrc && <img width={250} height={250} src={imageSrc} alt="preview-img" />}
-                        </Box>
+                        </Box>*/}
 
                     </Box>
                 </Modal>
