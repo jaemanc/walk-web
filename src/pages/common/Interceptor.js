@@ -6,7 +6,7 @@ const Interceptor = (props) => {
     // 2. 갱신 및 session에 다시 적용.
     var axiosAuthInstance = axios.create({
         baseURL: 'http://localhost:3000',
-        timeout: 1000,
+        timeout: 5000,
     })
 
     let jwt = sessionStorage.getItem("jwt");

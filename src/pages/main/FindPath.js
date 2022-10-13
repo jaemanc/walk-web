@@ -53,9 +53,6 @@ const FindPath = (props) => {
                 let px = '';
                 response.data.coordinateValue.map((polyTemp) => {
 
-                    console.log('#1',polyTemp);
-
-
                     let flag = false;
                     if (polyTemp.startsWith('1')) {
                         py = polyTemp;
